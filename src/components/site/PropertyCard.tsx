@@ -4,7 +4,7 @@ import { useFavorites } from "@/hooks/use-favorites";
 import { firstImage, roomsLabel, rub, SOURCE_LABEL, type Property } from "@/lib/catalog";
 import { KeyIcon } from "./KeyIcon";
 
-type Props = { p: Property; layout?: "grid" | "list"; active?: boolean; onHover?: (id: string | null) => void };
+type Props = { p: Property; layout?: "grid" | "list"; active?: boolean; onHover?: ((id: string | null) => void) | undefined };
 
 export function PropertyCard({ p, layout = "grid", active, onHover }: Props) {
   const fav = useFavorites();
