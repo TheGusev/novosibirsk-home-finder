@@ -14,7 +14,90 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      properties: {
+        Row: {
+          address: string | null
+          area_kitchen: number | null
+          area_total: number
+          created_at: string
+          description: string | null
+          district: string
+          finish: string | null
+          floor: number | null
+          floors_total: number | null
+          house_type: string | null
+          id: string
+          images: Json
+          lat: number | null
+          lng: number | null
+          metro: string | null
+          price: number
+          price_per_m2: number | null
+          price_verified_at: string
+          responsible_agent_id: string | null
+          rooms: number
+          slug: string
+          source_type: string
+          status: string
+          title: string
+          type: string
+        }
+        Insert: {
+          address?: string | null
+          area_kitchen?: number | null
+          area_total: number
+          created_at?: string
+          description?: string | null
+          district: string
+          finish?: string | null
+          floor?: number | null
+          floors_total?: number | null
+          house_type?: string | null
+          id?: string
+          images?: Json
+          lat?: number | null
+          lng?: number | null
+          metro?: string | null
+          price: number
+          price_per_m2?: number | null
+          price_verified_at?: string
+          responsible_agent_id?: string | null
+          rooms?: number
+          slug: string
+          source_type?: string
+          status?: string
+          title: string
+          type: string
+        }
+        Update: {
+          address?: string | null
+          area_kitchen?: number | null
+          area_total?: number
+          created_at?: string
+          description?: string | null
+          district?: string
+          finish?: string | null
+          floor?: number | null
+          floors_total?: number | null
+          house_type?: string | null
+          id?: string
+          images?: Json
+          lat?: number | null
+          lng?: number | null
+          metro?: string | null
+          price?: number
+          price_per_m2?: number | null
+          price_verified_at?: string
+          responsible_agent_id?: string | null
+          rooms?: number
+          slug?: string
+          source_type?: string
+          status?: string
+          title?: string
+          type?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
