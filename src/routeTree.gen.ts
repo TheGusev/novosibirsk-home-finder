@@ -10,33 +10,141 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ArendaRouteImport } from './routes/arenda'
+import { Route as IpotekaRouteImport } from './routes/ipoteka'
+import { Route as KontaktyRouteImport } from './routes/kontakty'
+import { Route as KupitKvartiruRouteImport } from './routes/kupit-kvartiru'
+import { Route as NovostroykiRouteImport } from './routes/novostroyki'
+import { Route as PolitikaRouteImport } from './routes/politika'
+import { Route as ProdatKvartiruRouteImport } from './routes/prodat-kvartiru'
+import { Route as KvartiraIdRouteImport } from './routes/kvartira.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArendaRoute = ArendaRouteImport.update({
+  id: '/arenda',
+  path: '/arenda',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IpotekaRoute = IpotekaRouteImport.update({
+  id: '/ipoteka',
+  path: '/ipoteka',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KontaktyRoute = KontaktyRouteImport.update({
+  id: '/kontakty',
+  path: '/kontakty',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KupitKvartiruRoute = KupitKvartiruRouteImport.update({
+  id: '/kupit-kvartiru',
+  path: '/kupit-kvartiru',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NovostroykiRoute = NovostroykiRouteImport.update({
+  id: '/novostroyki',
+  path: '/novostroyki',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PolitikaRoute = PolitikaRouteImport.update({
+  id: '/politika',
+  path: '/politika',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProdatKvartiruRoute = ProdatKvartiruRouteImport.update({
+  id: '/prodat-kvartiru',
+  path: '/prodat-kvartiru',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KvartiraIdRoute = KvartiraIdRouteImport.update({
+  id: '/kvartira/$id',
+  path: '/kvartira/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/arenda': typeof ArendaRoute
+  '/ipoteka': typeof IpotekaRoute
+  '/kontakty': typeof KontaktyRoute
+  '/kupit-kvartiru': typeof KupitKvartiruRoute
+  '/novostroyki': typeof NovostroykiRoute
+  '/politika': typeof PolitikaRoute
+  '/prodat-kvartiru': typeof ProdatKvartiruRoute
+  '/kvartira/$id': typeof KvartiraIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/arenda': typeof ArendaRoute
+  '/ipoteka': typeof IpotekaRoute
+  '/kontakty': typeof KontaktyRoute
+  '/kupit-kvartiru': typeof KupitKvartiruRoute
+  '/novostroyki': typeof NovostroykiRoute
+  '/politika': typeof PolitikaRoute
+  '/prodat-kvartiru': typeof ProdatKvartiruRoute
+  '/kvartira/$id': typeof KvartiraIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/arenda': typeof ArendaRoute
+  '/ipoteka': typeof IpotekaRoute
+  '/kontakty': typeof KontaktyRoute
+  '/kupit-kvartiru': typeof KupitKvartiruRoute
+  '/novostroyki': typeof NovostroykiRoute
+  '/politika': typeof PolitikaRoute
+  '/prodat-kvartiru': typeof ProdatKvartiruRoute
+  '/kvartira/$id': typeof KvartiraIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/arenda'
+    | '/ipoteka'
+    | '/kontakty'
+    | '/kupit-kvartiru'
+    | '/novostroyki'
+    | '/politika'
+    | '/prodat-kvartiru'
+    | '/kvartira/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/arenda'
+    | '/ipoteka'
+    | '/kontakty'
+    | '/kupit-kvartiru'
+    | '/novostroyki'
+    | '/politika'
+    | '/prodat-kvartiru'
+    | '/kvartira/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/arenda'
+    | '/ipoteka'
+    | '/kontakty'
+    | '/kupit-kvartiru'
+    | '/novostroyki'
+    | '/politika'
+    | '/prodat-kvartiru'
+    | '/kvartira/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ArendaRoute: typeof ArendaRoute
+  IpotekaRoute: typeof IpotekaRoute
+  KontaktyRoute: typeof KontaktyRoute
+  KupitKvartiruRoute: typeof KupitKvartiruRoute
+  NovostroykiRoute: typeof NovostroykiRoute
+  PolitikaRoute: typeof PolitikaRoute
+  ProdatKvartiruRoute: typeof ProdatKvartiruRoute
+  KvartiraIdRoute: typeof KvartiraIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +156,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/arenda': {
+      id: '/arenda'
+      path: '/arenda'
+      fullPath: '/arenda'
+      preLoaderRoute: typeof ArendaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ipoteka': {
+      id: '/ipoteka'
+      path: '/ipoteka'
+      fullPath: '/ipoteka'
+      preLoaderRoute: typeof IpotekaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kontakty': {
+      id: '/kontakty'
+      path: '/kontakty'
+      fullPath: '/kontakty'
+      preLoaderRoute: typeof KontaktyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kupit-kvartiru': {
+      id: '/kupit-kvartiru'
+      path: '/kupit-kvartiru'
+      fullPath: '/kupit-kvartiru'
+      preLoaderRoute: typeof KupitKvartiruRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/novostroyki': {
+      id: '/novostroyki'
+      path: '/novostroyki'
+      fullPath: '/novostroyki'
+      preLoaderRoute: typeof NovostroykiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/politika': {
+      id: '/politika'
+      path: '/politika'
+      fullPath: '/politika'
+      preLoaderRoute: typeof PolitikaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prodat-kvartiru': {
+      id: '/prodat-kvartiru'
+      path: '/prodat-kvartiru'
+      fullPath: '/prodat-kvartiru'
+      preLoaderRoute: typeof ProdatKvartiruRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kvartira/$id': {
+      id: '/kvartira/$id'
+      path: '/kvartira/$id'
+      fullPath: '/kvartira/$id'
+      preLoaderRoute: typeof KvartiraIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ArendaRoute: ArendaRoute,
+  IpotekaRoute: IpotekaRoute,
+  KontaktyRoute: KontaktyRoute,
+  KupitKvartiruRoute: KupitKvartiruRoute,
+  NovostroykiRoute: NovostroykiRoute,
+  PolitikaRoute: PolitikaRoute,
+  ProdatKvartiruRoute: ProdatKvartiruRoute,
+  KvartiraIdRoute: KvartiraIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

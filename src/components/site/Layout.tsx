@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
-import { Menu, X, Phone, MessageCircle, Send, Search } from "lucide-react";
+import { Menu, X, Phone, MessageCircle, Send } from "lucide-react";
 import { KeyIcon } from "./KeyIcon";
 import { BerryButton, PHONE, PHONE_HREF } from "./ui";
 
@@ -129,4 +129,3 @@ export function SiteLayout({ children }: { children: ReactNode }) {
     </div>
   );
 }
-export { Search };
