@@ -5,7 +5,7 @@ const p = (o: Partial<Property>): Property => ({
   id: o.slug ?? "x", slug: "x", title: "Демо", type: "resale", rooms: 1, area_total: 40, area_kitchen: null, floor: 3, floors_total: 9,
   price: 5_000_000, price_per_m2: 125_000, district: "Центральный", metro: null, address: null, lat: null, lng: null, house_type: null,
   finish: null, description: null, source_type: "agency", responsible_agent_id: null, price_verified_at: "2026-01-01", status: "active",
-  created_at: "2026-01-01", images: [], ...o,
+  created_at: "2026-01-01", images: [], year_built: null, deal_type: null, encumbrances: null, availability_verified_at: null, checks_done: [], checks_pending: [], ...o,
 });
 
 const rows = [
