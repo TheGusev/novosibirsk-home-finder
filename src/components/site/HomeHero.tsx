@@ -9,7 +9,7 @@ const label = "mb-1.5 block text-xs font-semibold text-muted-foreground";
 
 export function HomeHero() {
   const navigate = useNavigate();
-  const [q, setQ] = useState({ type: "", rooms: "", budget: "", place: "" });
+  const [q, setQ] = useState({ type: "", rooms: "", budgetFrom: "", budgetTo: "", place: "" });
   const set = (k: keyof typeof q) => (e: { target: { value: string } }) => setQ({ ...q, [k]: e.target.value });
 
   return (
@@ -46,32 +46,35 @@ export function HomeHero() {
       <form
         id="poisk"
         onSubmit={(e) => { e.preventDefault(); navigate({ to: "/kupit-kvartiru", search: q }); }}
-        className="relative z-10 mt-10 grid scroll-mt-24 gap-3 rounded-2xl bg-card p-4 shadow-lift sm:grid-cols-2 md:p-5 lg:grid-cols-[1fr_1fr_1fr_1.3fr_auto] lg:items-end"
+        className="relative z-10 mt-10 grid scroll-mt-24 grid-cols-2 gap-3 rounded-2xl bg-card p-4 shadow-lift md:p-5 lg:grid-cols-[1fr_1fr_1.4fr_1.3fr_auto] lg:items-end"
       >
         <div>
           <label className={label} htmlFor="type">Тип жилья</label>
           <select id="type" className={field} value={q.type} onChange={set("type")}>
-            <option value="">Любой</option><option value="new">Новостройка</option><option value="resale">Вторичка</option>
+            <option value="">Любой</option><option value="resale">Вторичка</option><option value="new">Новостройка</option>
           </select>
         </div>
         <div>
           <label className={label} htmlFor="rooms">Комнаты</label>
           <select id="rooms" className={field} value={q.rooms} onChange={set("rooms")}>
-            <option value="">Любое число</option><option value="studio">Студия</option><option value="1">1</option><option value="2">2</option><option value="3">3+</option>
+            <option value="">Любое число</option><option value="studio">Студия</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4+</option>
           </select>
         </div>
-        <div>
-          <label className={label} htmlFor="budget">Бюджет до, ₽</label>
-          <input id="budget" inputMode="numeric" placeholder="например, 6 000 000" className={field} value={q.budget} onChange={set("budget")} />
+        <div className="col-span-2 lg:col-span-1">
+          <span className={label}>Бюджет, ₽</span>
+          <div className="grid grid-cols-2 gap-2">
+            <input id="budget" aria-label="Бюджет от" inputMode="numeric" placeholder="от" className={field} value={q.budgetFrom} onChange={set("budgetFrom")} />
+            <input aria-label="Бюджет до" inputMode="numeric" placeholder="до" className={field} value={q.budgetTo} onChange={set("budgetTo")} />
+          </div>
         </div>
-        <div>
+        <div className="col-span-2 lg:col-span-1">
           <label className={label} htmlFor="place">Район или метро</label>
           <input id="place" placeholder="Центральный, «Площадь Маркса»…" className={field} value={q.place} onChange={set("place")} />
         </div>
-        <button className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-primary px-6 text-sm font-semibold text-primary-foreground transition hover:brightness-125 sm:col-span-2 lg:col-span-1">
+        <button className="inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-primary px-6 text-sm font-semibold text-primary-foreground transition hover:brightness-125 col-span-2 lg:col-span-1">
           <Search className="h-4 w-4" /> Показать варианты
         </button>
-        <p className="text-xs text-muted-foreground sm:col-span-2 lg:col-span-5">Каталог открывается сразу — телефон не нужен.</p>
+        <p className="text-xs text-muted-foreground col-span-2 lg:col-span-5">Каталог открывается сразу — телефон не нужен.</p>
       </form>
     </section>
   );
