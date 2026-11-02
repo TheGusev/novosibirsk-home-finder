@@ -16,7 +16,9 @@ import { Route as KontaktyRouteImport } from './routes/kontakty'
 import { Route as KupitKvartiruRouteImport } from './routes/kupit-kvartiru'
 import { Route as NovostroykiRouteImport } from './routes/novostroyki'
 import { Route as PolitikaRouteImport } from './routes/politika'
+import { Route as ProdatIKupitRouteImport } from './routes/prodat-i-kupit'
 import { Route as ProdatKvartiruRouteImport } from './routes/prodat-kvartiru'
+import { Route as ProverkaObektaRouteImport } from './routes/proverka-obekta'
 import { Route as KvartiraIdRouteImport } from './routes/kvartira.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -54,9 +56,19 @@ const PolitikaRoute = PolitikaRouteImport.update({
   path: '/politika',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProdatIKupitRoute = ProdatIKupitRouteImport.update({
+  id: '/prodat-i-kupit',
+  path: '/prodat-i-kupit',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProdatKvartiruRoute = ProdatKvartiruRouteImport.update({
   id: '/prodat-kvartiru',
   path: '/prodat-kvartiru',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProverkaObektaRoute = ProverkaObektaRouteImport.update({
+  id: '/proverka-obekta',
+  path: '/proverka-obekta',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KvartiraIdRoute = KvartiraIdRouteImport.update({
@@ -73,7 +85,9 @@ export interface FileRoutesByFullPath {
   '/kupit-kvartiru': typeof KupitKvartiruRoute
   '/novostroyki': typeof NovostroykiRoute
   '/politika': typeof PolitikaRoute
+  '/prodat-i-kupit': typeof ProdatIKupitRoute
   '/prodat-kvartiru': typeof ProdatKvartiruRoute
+  '/proverka-obekta': typeof ProverkaObektaRoute
   '/kvartira/$id': typeof KvartiraIdRoute
 }
 export interface FileRoutesByTo {
@@ -84,7 +98,9 @@ export interface FileRoutesByTo {
   '/kupit-kvartiru': typeof KupitKvartiruRoute
   '/novostroyki': typeof NovostroykiRoute
   '/politika': typeof PolitikaRoute
+  '/prodat-i-kupit': typeof ProdatIKupitRoute
   '/prodat-kvartiru': typeof ProdatKvartiruRoute
+  '/proverka-obekta': typeof ProverkaObektaRoute
   '/kvartira/$id': typeof KvartiraIdRoute
 }
 export interface FileRoutesById {
@@ -96,7 +112,9 @@ export interface FileRoutesById {
   '/kupit-kvartiru': typeof KupitKvartiruRoute
   '/novostroyki': typeof NovostroykiRoute
   '/politika': typeof PolitikaRoute
+  '/prodat-i-kupit': typeof ProdatIKupitRoute
   '/prodat-kvartiru': typeof ProdatKvartiruRoute
+  '/proverka-obekta': typeof ProverkaObektaRoute
   '/kvartira/$id': typeof KvartiraIdRoute
 }
 export interface FileRouteTypes {
@@ -109,7 +127,9 @@ export interface FileRouteTypes {
     | '/kupit-kvartiru'
     | '/novostroyki'
     | '/politika'
+    | '/prodat-i-kupit'
     | '/prodat-kvartiru'
+    | '/proverka-obekta'
     | '/kvartira/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -120,7 +140,9 @@ export interface FileRouteTypes {
     | '/kupit-kvartiru'
     | '/novostroyki'
     | '/politika'
+    | '/prodat-i-kupit'
     | '/prodat-kvartiru'
+    | '/proverka-obekta'
     | '/kvartira/$id'
   id:
     | '__root__'
@@ -131,7 +153,9 @@ export interface FileRouteTypes {
     | '/kupit-kvartiru'
     | '/novostroyki'
     | '/politika'
+    | '/prodat-i-kupit'
     | '/prodat-kvartiru'
+    | '/proverka-obekta'
     | '/kvartira/$id'
   fileRoutesById: FileRoutesById
 }
@@ -143,7 +167,9 @@ export interface RootRouteChildren {
   KupitKvartiruRoute: typeof KupitKvartiruRoute
   NovostroykiRoute: typeof NovostroykiRoute
   PolitikaRoute: typeof PolitikaRoute
+  ProdatIKupitRoute: typeof ProdatIKupitRoute
   ProdatKvartiruRoute: typeof ProdatKvartiruRoute
+  ProverkaObektaRoute: typeof ProverkaObektaRoute
   KvartiraIdRoute: typeof KvartiraIdRoute
 }
 
@@ -198,11 +224,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PolitikaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/prodat-i-kupit': {
+      id: '/prodat-i-kupit'
+      path: '/prodat-i-kupit'
+      fullPath: '/prodat-i-kupit'
+      preLoaderRoute: typeof ProdatIKupitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/prodat-kvartiru': {
       id: '/prodat-kvartiru'
       path: '/prodat-kvartiru'
       fullPath: '/prodat-kvartiru'
       preLoaderRoute: typeof ProdatKvartiruRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/proverka-obekta': {
+      id: '/proverka-obekta'
+      path: '/proverka-obekta'
+      fullPath: '/proverka-obekta'
+      preLoaderRoute: typeof ProverkaObektaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kvartira/$id': {
@@ -223,7 +263,9 @@ const rootRouteChildren: RootRouteChildren = {
   KupitKvartiruRoute: KupitKvartiruRoute,
   NovostroykiRoute: NovostroykiRoute,
   PolitikaRoute: PolitikaRoute,
+  ProdatIKupitRoute: ProdatIKupitRoute,
   ProdatKvartiruRoute: ProdatKvartiruRoute,
+  ProverkaObektaRoute: ProverkaObektaRoute,
   KvartiraIdRoute: KvartiraIdRoute,
 }
 export const routeTree = rootRouteImport

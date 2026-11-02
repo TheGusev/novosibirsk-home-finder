@@ -7,6 +7,7 @@ export function ListingCard({ l }: { l: Listing }) {
       <div className="relative aspect-[4/3] overflow-hidden">
         <img src={l.image} alt={l.title} loading="lazy" width={1200} height={900} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
         <span className="absolute left-3 top-3 rounded-full bg-berry px-3 py-1 text-xs font-semibold text-berry-foreground">{l.type}</span>
+        <span className="absolute right-3 top-3 rounded-full bg-card/90 px-3 py-1 text-xs font-semibold text-primary">Демо</span>
       </div>
       <div className="p-5">
         <p className="text-lg font-bold text-primary">{l.price}</p>

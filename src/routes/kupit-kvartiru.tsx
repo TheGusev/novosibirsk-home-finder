@@ -6,9 +6,9 @@ import { LeadForm } from "@/components/site/LeadForm";
 import { LISTINGS } from "@/lib/listings";
 
 export const Route = createFileRoute("/kupit-kvartiru")({
-  validateSearch: (s: Record<string, unknown>): { type?: string | undefined; rooms?: string | undefined; budget?: string | undefined; place?: string | undefined } => {
+  validateSearch: (s: Record<string, unknown>): { type?: string | undefined; rooms?: string | undefined; budgetFrom?: string | undefined; budgetTo?: string | undefined; place?: string | undefined } => {
     const pick = (k: string) => (typeof s[k] === "string" && s[k] ? (s[k] as string) : undefined);
-    return { type: pick("type"), rooms: pick("rooms"), budget: pick("budget"), place: pick("place") };
+    return { type: pick("type"), rooms: pick("rooms"), budgetFrom: pick("budgetFrom"), budgetTo: pick("budgetTo"), place: pick("place") };
   },
   head: () => head("Купить квартиру в Новосибирске", "Подбор и покупка квартир в Новосибирске и области с проверкой документов."),
   component: () => (
