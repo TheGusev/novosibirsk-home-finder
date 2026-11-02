@@ -14,14 +14,52 @@ export type Database = {
   }
   public: {
     Tables: {
+      agents: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          phone: string | null
+          photo_url: string | null
+          role: string | null
+          telegram: string | null
+          whatsapp: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          phone?: string | null
+          photo_url?: string | null
+          role?: string | null
+          telegram?: string | null
+          whatsapp?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          phone?: string | null
+          photo_url?: string | null
+          role?: string | null
+          telegram?: string | null
+          whatsapp?: string | null
+        }
+        Relationships: []
+      }
       properties: {
         Row: {
           address: string | null
           area_kitchen: number | null
           area_total: number
+          availability_verified_at: string | null
+          checks_done: Json
+          checks_pending: Json
           created_at: string
+          deal_type: string | null
           description: string | null
           district: string
+          encumbrances: string | null
           finish: string | null
           floor: number | null
           floors_total: number | null
@@ -41,14 +79,20 @@ export type Database = {
           status: string
           title: string
           type: string
+          year_built: number | null
         }
         Insert: {
           address?: string | null
           area_kitchen?: number | null
           area_total: number
+          availability_verified_at?: string | null
+          checks_done?: Json
+          checks_pending?: Json
           created_at?: string
+          deal_type?: string | null
           description?: string | null
           district: string
+          encumbrances?: string | null
           finish?: string | null
           floor?: number | null
           floors_total?: number | null
@@ -68,14 +112,20 @@ export type Database = {
           status?: string
           title: string
           type: string
+          year_built?: number | null
         }
         Update: {
           address?: string | null
           area_kitchen?: number | null
           area_total?: number
+          availability_verified_at?: string | null
+          checks_done?: Json
+          checks_pending?: Json
           created_at?: string
+          deal_type?: string | null
           description?: string | null
           district?: string
+          encumbrances?: string | null
           finish?: string | null
           floor?: number | null
           floors_total?: number | null
@@ -95,8 +145,58 @@ export type Database = {
           status?: string
           title?: string
           type?: string
+          year_built?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "properties_agent_fk"
+            columns: ["responsible_agent_id"]
+            isOneToOne: false
+            referencedRelation: "agents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      viewing_requests: {
+        Row: {
+          consent: boolean
+          created_at: string
+          id: string
+          name: string
+          phone: string
+          preferred_date: string | null
+          preferred_time: string | null
+          property_id: string
+        }
+        Insert: {
+          consent: boolean
+          created_at?: string
+          id?: string
+          name: string
+          phone: string
+          preferred_date?: string | null
+          preferred_time?: string | null
+          property_id: string
+        }
+        Update: {
+          consent?: boolean
+          created_at?: string
+          id?: string
+          name?: string
+          phone?: string
+          preferred_date?: string | null
+          preferred_time?: string | null
+          property_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "viewing_requests_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
