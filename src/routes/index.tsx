@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Building2, Home, KeyRound, Landmark, ShieldCheck, FileText, MessageSquare } from "lucide-react";
-import hero from "@/assets/hero.jpg";
+import { HomeHero } from "@/components/site/HomeHero";
 import { SiteLayout } from "@/components/site/Layout";
-import { BerryButton, Section, Card, Steps } from "@/components/site/ui";
+import { Section, Card, Steps } from "@/components/site/ui";
 import { ListingCard } from "@/components/site/ListingCard";
 import { LeadForm } from "@/components/site/LeadForm";
 import { LISTINGS } from "@/lib/listings";
@@ -31,26 +31,7 @@ const SERVICES = [
 function Index() {
   return (
     <SiteLayout>
-      <div className="mx-auto max-w-6xl px-4 pt-6 md:px-6 md:pt-10">
-        <div className="relative overflow-hidden rounded-2xl shadow-lift">
-          <img src={hero} alt="Светлая квартира с видом на Новосибирск" width={1600} height={1104} className="h-[560px] w-full object-cover md:h-[620px]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/55 to-primary/5" />
-          <div className="absolute inset-x-0 bottom-0 p-6 md:p-12">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground/80">Недвижимость Новосибирска и области</p>
-            <h1 className="mt-3 max-w-2xl text-4xl font-extrabold leading-[1.05] text-primary-foreground md:text-6xl">
-              Ключ — в ваши руки.
-              <br />
-              <span className="opacity-80">Сделка — по понятным правилам.</span>
-            </h1>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <BerryButton />
-              <Link to="/prodat-kvartiru" className="inline-flex items-center rounded-xl bg-primary-foreground/15 px-5 py-3 text-sm font-semibold text-primary-foreground backdrop-blur hover:bg-primary-foreground/25">
-                Продать квартиру
-              </Link>
-            </div>
-          </div>
-        </div>
-      </div>
+      <HomeHero />
 
       <Section>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
