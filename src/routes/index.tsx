@@ -4,10 +4,12 @@ import { SiteLayout } from "@/components/site/Layout";
 import { HomeHero } from "@/components/site/HomeHero";
 import { Section } from "@/components/site/ui";
 import { KeyIcon } from "@/components/site/KeyIcon";
-import { ListingCard } from "@/components/site/ListingCard";
+import { PropertyCard, PropertyCardSkeleton } from "@/components/site/PropertyCard";
+import { useQuery } from "@tanstack/react-query";
+import { propertiesQuery } from "@/lib/properties-query";
+import { applyFilters } from "@/lib/catalog";
 import { MortgageCalc } from "@/components/site/MortgageCalc";
 import { FinalForm } from "@/components/site/FinalForm";
-import { LISTINGS } from "@/lib/listings";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -129,7 +131,7 @@ function Index() {
           <Link to="/kupit-kvartiru" className="mb-9 shrink-0 text-sm font-semibold text-berry">Все →</Link>
         </div>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {LISTINGS.map((l) => <ListingCard key={l.id} l={l} />)}
+          <HomeListings />
         </div>
       </Section>
 
@@ -177,4 +179,10 @@ function Index() {
       </Section>
     </SiteLayout>
   );
+}
+
+function HomeListings() {
+  const { data, isPending } = useQuery(propertiesQuery);
+  if (isPending) return <>{Array.from({ length: 6 }, (_, i) => <PropertyCardSkeleton key={i} />)}</>;
+  return <>{applyFilters(data ?? [], {}).slice(0, 6).map((p) => <PropertyCard key={p.id} p={p} />)}</>;
 }
