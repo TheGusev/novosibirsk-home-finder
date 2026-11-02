@@ -81,3 +81,16 @@
   & .key-icon { transition: transform 0.35s cubic-bezier(.34,1.56,.64,1); transform-origin: 30% 50%; }
   &:hover .key-icon { transform: rotate(-28deg); }
 }
+
+/* Маркеры карты — ключ с ценой */
+.map-pin {
+  display: inline-flex; align-items: center; gap: 4px; padding: 6px 10px 6px 8px;
+  border-radius: 999px; background: var(--card); color: var(--berry);
+  font: 700 12px/1 var(--font-sans); white-space: nowrap;
+  box-shadow: var(--shadow-lift-v); border: 2px solid var(--berry);
+  transition: transform .2s;
+}
+.map-pin span { color: var(--primary); }
+.map-pin.is-active { background: var(--berry); color: var(--berry-foreground); transform: scale(1.12); }
+.map-pin.is-active span { color: var(--berry-foreground); }
+.leaflet-container { font-family: var(--font-sans); background: var(--muted); }
