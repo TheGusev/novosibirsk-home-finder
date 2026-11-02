@@ -6,7 +6,7 @@ import { LeadForm } from "@/components/site/LeadForm";
 import { LISTINGS } from "@/lib/listings";
 
 export const Route = createFileRoute("/kupit-kvartiru")({
-  validateSearch: (s: Record<string, unknown>): { type?: string; rooms?: string; budget?: string; place?: string } => {
+  validateSearch: (s: Record<string, unknown>): { type?: string | undefined; rooms?: string | undefined; budget?: string | undefined; place?: string | undefined } => {
     const pick = (k: string) => (typeof s[k] === "string" && s[k] ? (s[k] as string) : undefined);
     return { type: pick("type"), rooms: pick("rooms"), budget: pick("budget"), place: pick("place") };
   },
