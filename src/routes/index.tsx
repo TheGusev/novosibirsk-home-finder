@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Building2, Home, KeyRound, Landmark, ShieldCheck, FileText, MessageSquare } from "lucide-react";
 import { HomeHero } from "@/components/site/HomeHero";
 import { SiteLayout } from "@/components/site/Layout";
-import { BerryButton, Section, Card, Steps } from "@/components/site/ui";
+import { Section, Card, Steps } from "@/components/site/ui";
 import { ListingCard } from "@/components/site/ListingCard";
 import { LeadForm } from "@/components/site/LeadForm";
 import { LISTINGS } from "@/lib/listings";
