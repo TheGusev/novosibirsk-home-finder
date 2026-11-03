@@ -19,6 +19,8 @@ import { Route as ProdatIKupitRouteImport } from './routes/prodat-i-kupit'
 import { Route as ProdatKvartiruRouteImport } from './routes/prodat-kvartiru'
 import { Route as ProverkaObektaRouteImport } from './routes/proverka-obekta'
 import { Route as KvartiraIdRouteImport } from './routes/kvartira.$id'
+import { Route as NovostroykiIndexRouteImport } from './routes/novostroyki.index'
+import { Route as NovostroykiSlugRouteImport } from './routes/novostroyki.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -70,6 +72,16 @@ const KvartiraIdRoute = KvartiraIdRouteImport.update({
   path: '/kvartira/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NovostroykiIndexRoute = NovostroykiIndexRouteImport.update({
+  id: '/novostroyki/',
+  path: '/novostroyki/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NovostroykiSlugRoute = NovostroykiSlugRouteImport.update({
+  id: '/novostroyki/$slug',
+  path: '/novostroyki/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -82,6 +94,8 @@ export interface FileRoutesByFullPath {
   '/prodat-kvartiru': typeof ProdatKvartiruRoute
   '/proverka-obekta': typeof ProverkaObektaRoute
   '/kvartira/$id': typeof KvartiraIdRoute
+  '/novostroyki/$slug': typeof NovostroykiSlugRoute
+  '/novostroyki/': typeof NovostroykiIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -94,6 +108,8 @@ export interface FileRoutesByTo {
   '/prodat-kvartiru': typeof ProdatKvartiruRoute
   '/proverka-obekta': typeof ProverkaObektaRoute
   '/kvartira/$id': typeof KvartiraIdRoute
+  '/novostroyki/$slug': typeof NovostroykiSlugRoute
+  '/novostroyki': typeof NovostroykiIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -107,6 +123,8 @@ export interface FileRoutesById {
   '/prodat-kvartiru': typeof ProdatKvartiruRoute
   '/proverka-obekta': typeof ProverkaObektaRoute
   '/kvartira/$id': typeof KvartiraIdRoute
+  '/novostroyki/$slug': typeof NovostroykiSlugRoute
+  '/novostroyki/': typeof NovostroykiIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -121,6 +139,8 @@ export interface FileRouteTypes {
     | '/prodat-kvartiru'
     | '/proverka-obekta'
     | '/kvartira/$id'
+    | '/novostroyki/$slug'
+    | '/novostroyki/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -133,6 +153,8 @@ export interface FileRouteTypes {
     | '/prodat-kvartiru'
     | '/proverka-obekta'
     | '/kvartira/$id'
+    | '/novostroyki/$slug'
+    | '/novostroyki'
   id:
     | '__root__'
     | '/'
@@ -145,6 +167,8 @@ export interface FileRouteTypes {
     | '/prodat-kvartiru'
     | '/proverka-obekta'
     | '/kvartira/$id'
+    | '/novostroyki/$slug'
+    | '/novostroyki/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -158,6 +182,8 @@ export interface RootRouteChildren {
   ProdatKvartiruRoute: typeof ProdatKvartiruRoute
   ProverkaObektaRoute: typeof ProverkaObektaRoute
   KvartiraIdRoute: typeof KvartiraIdRoute
+  NovostroykiSlugRoute: typeof NovostroykiSlugRoute
+  NovostroykiIndexRoute: typeof NovostroykiIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -232,6 +258,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KvartiraIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/novostroyki/': {
+      id: '/novostroyki/'
+      path: '/novostroyki'
+      fullPath: '/novostroyki/'
+      preLoaderRoute: typeof NovostroykiIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/novostroyki/$slug': {
+      id: '/novostroyki/$slug'
+      path: '/novostroyki/$slug'
+      fullPath: '/novostroyki/$slug'
+      preLoaderRoute: typeof NovostroykiSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -246,6 +286,8 @@ const rootRouteChildren: RootRouteChildren = {
   ProdatKvartiruRoute: ProdatKvartiruRoute,
   ProverkaObektaRoute: ProverkaObektaRoute,
   KvartiraIdRoute: KvartiraIdRoute,
+  NovostroykiSlugRoute: NovostroykiSlugRoute,
+  NovostroykiIndexRoute: NovostroykiIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
