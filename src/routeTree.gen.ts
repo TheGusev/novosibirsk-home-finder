@@ -14,7 +14,6 @@ import { Route as ArendaRouteImport } from './routes/arenda'
 import { Route as IpotekaRouteImport } from './routes/ipoteka'
 import { Route as KontaktyRouteImport } from './routes/kontakty'
 import { Route as KupitKvartiruRouteImport } from './routes/kupit-kvartiru'
-import { Route as NovostroykiRouteImport } from './routes/novostroyki'
 import { Route as PolitikaRouteImport } from './routes/politika'
 import { Route as ProdatIKupitRouteImport } from './routes/prodat-i-kupit'
 import { Route as ProdatKvartiruRouteImport } from './routes/prodat-kvartiru'
@@ -44,11 +43,6 @@ const KontaktyRoute = KontaktyRouteImport.update({
 const KupitKvartiruRoute = KupitKvartiruRouteImport.update({
   id: '/kupit-kvartiru',
   path: '/kupit-kvartiru',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NovostroykiRoute = NovostroykiRouteImport.update({
-  id: '/novostroyki',
-  path: '/novostroyki',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PolitikaRoute = PolitikaRouteImport.update({
@@ -83,7 +77,6 @@ export interface FileRoutesByFullPath {
   '/ipoteka': typeof IpotekaRoute
   '/kontakty': typeof KontaktyRoute
   '/kupit-kvartiru': typeof KupitKvartiruRoute
-  '/novostroyki': typeof NovostroykiRoute
   '/politika': typeof PolitikaRoute
   '/prodat-i-kupit': typeof ProdatIKupitRoute
   '/prodat-kvartiru': typeof ProdatKvartiruRoute
@@ -96,7 +89,6 @@ export interface FileRoutesByTo {
   '/ipoteka': typeof IpotekaRoute
   '/kontakty': typeof KontaktyRoute
   '/kupit-kvartiru': typeof KupitKvartiruRoute
-  '/novostroyki': typeof NovostroykiRoute
   '/politika': typeof PolitikaRoute
   '/prodat-i-kupit': typeof ProdatIKupitRoute
   '/prodat-kvartiru': typeof ProdatKvartiruRoute
@@ -110,7 +102,6 @@ export interface FileRoutesById {
   '/ipoteka': typeof IpotekaRoute
   '/kontakty': typeof KontaktyRoute
   '/kupit-kvartiru': typeof KupitKvartiruRoute
-  '/novostroyki': typeof NovostroykiRoute
   '/politika': typeof PolitikaRoute
   '/prodat-i-kupit': typeof ProdatIKupitRoute
   '/prodat-kvartiru': typeof ProdatKvartiruRoute
@@ -125,7 +116,6 @@ export interface FileRouteTypes {
     | '/ipoteka'
     | '/kontakty'
     | '/kupit-kvartiru'
-    | '/novostroyki'
     | '/politika'
     | '/prodat-i-kupit'
     | '/prodat-kvartiru'
@@ -138,7 +128,6 @@ export interface FileRouteTypes {
     | '/ipoteka'
     | '/kontakty'
     | '/kupit-kvartiru'
-    | '/novostroyki'
     | '/politika'
     | '/prodat-i-kupit'
     | '/prodat-kvartiru'
@@ -151,7 +140,6 @@ export interface FileRouteTypes {
     | '/ipoteka'
     | '/kontakty'
     | '/kupit-kvartiru'
-    | '/novostroyki'
     | '/politika'
     | '/prodat-i-kupit'
     | '/prodat-kvartiru'
@@ -165,7 +153,6 @@ export interface RootRouteChildren {
   IpotekaRoute: typeof IpotekaRoute
   KontaktyRoute: typeof KontaktyRoute
   KupitKvartiruRoute: typeof KupitKvartiruRoute
-  NovostroykiRoute: typeof NovostroykiRoute
   PolitikaRoute: typeof PolitikaRoute
   ProdatIKupitRoute: typeof ProdatIKupitRoute
   ProdatKvartiruRoute: typeof ProdatKvartiruRoute
@@ -208,13 +195,6 @@ declare module '@tanstack/react-router' {
       path: '/kupit-kvartiru'
       fullPath: '/kupit-kvartiru'
       preLoaderRoute: typeof KupitKvartiruRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/novostroyki': {
-      id: '/novostroyki'
-      path: '/novostroyki'
-      fullPath: '/novostroyki'
-      preLoaderRoute: typeof NovostroykiRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/politika': {
@@ -261,7 +241,6 @@ const rootRouteChildren: RootRouteChildren = {
   IpotekaRoute: IpotekaRoute,
   KontaktyRoute: KontaktyRoute,
   KupitKvartiruRoute: KupitKvartiruRoute,
-  NovostroykiRoute: NovostroykiRoute,
   PolitikaRoute: PolitikaRoute,
   ProdatIKupitRoute: ProdatIKupitRoute,
   ProdatKvartiruRoute: ProdatKvartiruRoute,
