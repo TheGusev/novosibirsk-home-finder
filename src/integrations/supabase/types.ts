@@ -47,6 +47,128 @@ export type Database = {
         }
         Relationships: []
       }
+      complex_layouts: {
+        Row: {
+          area: number
+          complex_id: string
+          created_at: string
+          id: string
+          image: string | null
+          price_from: number | null
+          rooms: number
+        }
+        Insert: {
+          area: number
+          complex_id: string
+          created_at?: string
+          id?: string
+          image?: string | null
+          price_from?: number | null
+          rooms: number
+        }
+        Update: {
+          area?: number
+          complex_id?: string
+          created_at?: string
+          id?: string
+          image?: string | null
+          price_from?: number | null
+          rooms?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "complex_layouts_complex_id_fkey"
+            columns: ["complex_id"]
+            isOneToOne: false
+            referencedRelation: "complexes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      complexes: {
+        Row: {
+          address: string | null
+          commission_note: string | null
+          completion_quarter: number | null
+          completion_year: number | null
+          created_at: string
+          description: string | null
+          developer: string
+          district: string
+          finish: string | null
+          id: string
+          images: Json
+          name: string
+          price_from: number | null
+          slug: string
+          status: string
+        }
+        Insert: {
+          address?: string | null
+          commission_note?: string | null
+          completion_quarter?: number | null
+          completion_year?: number | null
+          created_at?: string
+          description?: string | null
+          developer: string
+          district: string
+          finish?: string | null
+          id?: string
+          images?: Json
+          name: string
+          price_from?: number | null
+          slug: string
+          status?: string
+        }
+        Update: {
+          address?: string | null
+          commission_note?: string | null
+          completion_quarter?: number | null
+          completion_year?: number | null
+          created_at?: string
+          description?: string | null
+          developer?: string
+          district?: string
+          finish?: string | null
+          id?: string
+          images?: Json
+          name?: string
+          price_from?: number | null
+          slug?: string
+          status?: string
+        }
+        Relationships: []
+      }
+      leads: {
+        Row: {
+          consent: boolean
+          created_at: string
+          details: Json
+          id: string
+          kind: string
+          name: string | null
+          phone: string
+        }
+        Insert: {
+          consent: boolean
+          created_at?: string
+          details?: Json
+          id?: string
+          kind: string
+          name?: string | null
+          phone: string
+        }
+        Update: {
+          consent?: boolean
+          created_at?: string
+          details?: Json
+          id?: string
+          kind?: string
+          name?: string | null
+          phone?: string
+        }
+        Relationships: []
+      }
       properties: {
         Row: {
           address: string | null
@@ -156,6 +278,66 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      rentals: {
+        Row: {
+          address: string | null
+          area_total: number | null
+          created_at: string
+          district: string | null
+          id: string
+          images: Json
+          price_month: number
+          rooms: number
+          status: string
+          title: string
+          verified_at: string
+        }
+        Insert: {
+          address?: string | null
+          area_total?: number | null
+          created_at?: string
+          district?: string | null
+          id?: string
+          images?: Json
+          price_month: number
+          rooms?: number
+          status?: string
+          title: string
+          verified_at?: string
+        }
+        Update: {
+          address?: string | null
+          area_total?: number | null
+          created_at?: string
+          district?: string | null
+          id?: string
+          images?: Json
+          price_month?: number
+          rooms?: number
+          status?: string
+          title?: string
+          verified_at?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: []
       }
       viewing_requests: {
         Row: {

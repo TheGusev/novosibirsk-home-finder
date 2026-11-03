@@ -15,6 +15,13 @@
       "when": 1793642156981,
       "tag": "0001_property_page_details",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793704921586,
+      "tag": "0002_services_pages",
+      "breakpoints": true
     }
   ]
 }
