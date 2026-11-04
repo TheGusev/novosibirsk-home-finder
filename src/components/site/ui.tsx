@@ -17,8 +17,8 @@ export function BerryButton({ children = "Подобрать квартиру", 
   );
 }
 
-export function Section({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <section className={`mx-auto max-w-6xl px-4 py-14 md:px-6 md:py-20 ${className}`}>{children}</section>;
+export function Section({ children, className = "", id }: { children: ReactNode; className?: string; id?: string }) {
+  return <section id={id} className={`mx-auto max-w-6xl scroll-mt-20 px-4 py-14 md:px-6 md:py-20 ${className}`}>{children}</section>;
 }
 
 export function PageHero({ eyebrow, title, text }: { eyebrow: string; title: string; text: string }) {
