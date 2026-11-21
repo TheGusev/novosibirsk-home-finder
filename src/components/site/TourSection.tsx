@@ -1,4 +1,4 @@
-import { ArrowRight, Play } from "lucide-react";
+import { Play } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import tourPoster from "@/assets/tour/living.webp";
 import { Section, SectionTitle } from "./ui";
@@ -7,15 +7,7 @@ import { Section, SectionTitle } from "./ui";
 export function TourSection() {
   return (
     <Section>
-      <SectionTitle
-        action={
-          <Link to="/tur" className="inline-flex items-center gap-1.5 whitespace-nowrap text-sm font-semibold text-brand hover:underline">
-            Открыть рум-тур <ArrowRight className="h-4 w-4" />
-          </Link>
-        }
-      >
-        Рум-тур
-      </SectionTitle>
+      <SectionTitle>Рум-тур</SectionTitle>
       <Link
         to="/tur"
         aria-label="Открыть рум-тур по демонстрационной квартире: 5 комнат и план"

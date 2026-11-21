@@ -1,6 +1,6 @@
-import { Link, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { ArrowRight, Play, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { cleanFilters, DISTRICTS, METRO } from "@/lib/catalog";
 import { metrikaGoal } from "@/lib/metrika";
 
@@ -16,17 +16,6 @@ export function HomeHero() {
     <section className="mx-auto max-w-[1280px] px-4 pt-6 md:px-6 md:pt-10">
       <h1 className="text-[1.75rem] font-bold leading-tight text-primary md:text-[2.5rem]">Квартиры в Новосибирске</h1>
       <p className="mt-2 max-w-2xl text-muted-foreground">Вторичка и новостройки. Поможем сравнить варианты, проверить документы и посчитать расходы до покупки.</p>
-      <Link
-        to="/tur"
-        aria-label="Открыть рум-тур: посмотреть квартиру изнутри, 5 комнат и план"
-        className="mt-4 flex min-h-12 items-center gap-3 rounded-lg border bg-card px-3 text-sm font-semibold text-primary transition hover:border-primary/40"
-      >
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand text-brand-foreground">
-          <Play className="ml-0.5 h-4 w-4 fill-current" aria-hidden />
-        </span>
-        <span className="min-w-0 flex-1 truncate">Рум-тур: посмотреть квартиру</span>
-        <ArrowRight className="h-4 w-4 shrink-0 text-brand" aria-hidden />
-      </Link>
       <div role="radiogroup" aria-label="Тип жилья" className="mt-5 inline-flex rounded-md border bg-card p-1">
         {[["", "Все"], ["resale", "Вторичка"], ["new", "Новостройки"]].map(([v, l]) => (
           <button key={v} type="button" role="radio" aria-checked={q.type === v} onClick={() => setQ({ ...q, type: v as string })}
