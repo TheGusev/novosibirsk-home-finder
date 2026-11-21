@@ -4,7 +4,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
 import { HomeHero } from "@/components/site/HomeHero";
-import tourPoster from "@/assets/tour/living.webp";
+import { TourSection } from "@/components/site/TourSection";
 import { Section, SectionTitle, Steps } from "@/components/site/ui";
 import { PropertyCard } from "@/components/site/PropertyCard";
 import { useSuspenseQuery } from "@tanstack/react-query";
@@ -49,6 +49,8 @@ function Index() {
     <SiteLayout>
       <HomeHero />
 
+      <TourSection />
+
       <Section>
         <SectionTitle action={<Link to="/kupit-kvartiru" className="text-sm font-semibold text-brand hover:underline">Весь каталог</Link>}>Актуальные предложения</SectionTitle>
         <div className="grid gap-x-5 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -69,13 +71,10 @@ function Index() {
         </ul>
       </Section>
 
-      <Section className="grid gap-8 pt-0 md:pt-0 lg:grid-cols-[1.3fr_1fr]">
-        <div>
-          <SectionTitle>Что входит в услугу</SectionTitle>
-          <Steps items={STEPS} />
-          <p className="mt-5 text-sm text-muted-foreground">Стоимость услуг: [заполнить]. Условия фиксируем в договоре до начала работы.</p>
-        </div>
-        <TourPreview />
+      <Section className="pt-0 md:pt-0">
+        <SectionTitle>Что входит в услугу</SectionTitle>
+        <Steps items={STEPS} />
+        <p className="mt-5 text-sm text-muted-foreground">Стоимость услуг: [заполнить]. Условия фиксируем в договоре до начала работы.</p>
       </Section>
 
       <Section className="pt-0 md:pt-0">
@@ -105,19 +104,6 @@ function Index() {
 
       <Section className="pt-0 md:pt-0"><CollectionLinks /></Section>
     </SiteLayout>
-  );
-}
-
-function TourPreview() {
-  return (
-    <Link to="/tur" className="group relative block overflow-hidden rounded-lg border bg-card">
-      <img src={tourPoster} alt="" width={1600} height={1008} loading="lazy" decoding="async" className="aspect-[16/10] w-full object-cover transition duration-300 group-hover:scale-[1.02]" />
-      <span className="absolute left-3 top-3 rounded bg-card/95 px-1.5 py-0.5 text-[11px] font-semibold text-primary">Демонстрационная квартира</span>
-      <span className="flex items-center justify-between gap-3 p-4">
-        <span><span className="block font-semibold text-primary">Посмотреть квартиру изнутри</span><span className="block text-sm text-muted-foreground">Пример рум-тура: 5 комнат и план</span></span>
-        <ArrowRight className="h-4 w-4 shrink-0 text-brand" />
-      </span>
-    </Link>
   );
 }
 

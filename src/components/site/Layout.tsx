@@ -10,6 +10,7 @@ const NAV = [
   { to: "/kupit-kvartiru", label: "Купить" },
   { to: "/novostroyki", label: "Новостройки" },
   { to: "/prodat-kvartiru", label: "Продать" },
+  { to: "/tur", label: "Рум-тур" },
   { to: "/arenda", label: "Аренда" },
   { to: "/ipoteka", label: "Ипотека" },
   { to: "/kontakty", label: "Контакты" },
