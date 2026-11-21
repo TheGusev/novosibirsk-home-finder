@@ -28,3 +28,4 @@
 - Room tours go through `getTour()` in `src/lib/tour/adapter.ts` with typed Tour/TourScene/TourHotspot; the demo tour is never attached to a real property, so swapping in DB tours needs no component changes.
 - Brand name, domain and requisites live only in `src/config/site.ts`; Organization JSON-LD and title suffix render only once a real name and domain are set, so placeholders never reach SEO.
 - Accent colour is the single `--brand` token in `src/styles.css`; components use `brand`/semantic classes only, so a rebrand is a token change.
+- Preview self-heal: an inline script from `src/lib/render-recovery.ts` is injected in the root head and reloads once when a stale-module or hydration failure leaves the screen blank; keep the blank-screen check and the reload cap so a real bug cannot loop.

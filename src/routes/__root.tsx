@@ -18,6 +18,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { captureAttribution } from "@/lib/lead-attribution";
 import { initializeMetrika } from "@/lib/metrika";
+import { RENDER_RECOVERY } from "@/lib/render-recovery";
 
 function NotFoundComponent() {
   return (
@@ -90,7 +91,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    scripts: loaderData && organizationSchema(loaderData) ? [{ type: "application/ld+json", children: JSON.stringify(organizationSchema(loaderData)).replace(/</g, "\\u003c") }] : [],
+    scripts: [
+      { children: RENDER_RECOVERY },
+      ...(loaderData && organizationSchema(loaderData)
+        ? [{ type: "application/ld+json", children: JSON.stringify(organizationSchema(loaderData)).replace(/</g, "\\u003c") }]
+        : []),
+    ],
     links: [
       { rel: "preload", href: manropeCyrillic, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
       { rel: "preload", href: manropeLatin, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
