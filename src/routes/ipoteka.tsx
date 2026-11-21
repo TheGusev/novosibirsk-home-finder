@@ -16,7 +16,7 @@ export const Route = createFileRoute("/ipoteka")({
           { t: "Одобрение", d: "Сопровождаем до сделки" },
         ]} />
       </Section>
-      <Section className="pt-0 md:pt-0"><LeadForm title="Консультация по ипотеке" /></Section>
+      <Section className="pt-0 md:pt-0"><LeadForm type="mortgage" title="Консультация по ипотеке" /></Section>
     </SiteLayout>
   ),
 });

@@ -5,6 +5,7 @@ import { PageHero, Section, head } from "@/components/site/ui";
 import { LeadForm } from "@/components/site/LeadForm";
 import { DISTRICTS } from "@/lib/catalog";
 import { rub } from "@/lib/catalog";
+import { metrikaGoal } from "@/lib/metrika";
 import { applyComplexFilters, complexesQuery, complexImage, completionLabel, parseComplexFilters, type ComplexFilters } from "@/lib/complexes";
 
 const field = "h-11 w-full rounded-xl border border-input bg-background px-3 text-sm text-primary outline-none focus:ring-2 focus:ring-ring";
@@ -25,7 +26,11 @@ function Complexes() {
   const nav = useNavigate({ from: "/novostroyki/" });
   const { data } = useSuspenseQuery(complexesQuery);
   const list = applyComplexFilters(data, f);
-  const set = (k: keyof ComplexFilters, v: string) => nav({ search: (p: ComplexFilters) => parseComplexFilters({ ...p, [k]: v }), replace: true });
+  const set = async (k: keyof ComplexFilters, v: string) => {
+    await nav({ search: (p: ComplexFilters) => parseComplexFilters({ ...p, [k]: v }), replace: true });
+    window.__lovableEvents?.track?.("project.use_filter", { catalog: "complexes" });
+    metrikaGoal("use_filter", { catalog: "complexes" });
+  };
   return (
     <SiteLayout>
       <PageHero eyebrow="Новостройки" title="Жилые комплексы Новосибирска" text="Сравните ЖК по району, сроку сдачи, цене и отделке. Поможем разобраться в условиях застройщика и договоре ДДУ." />
@@ -50,7 +55,7 @@ function Complexes() {
         {list.length === 0 ? (
           <div className="mt-4 rounded-2xl bg-card p-8 text-center shadow-soft">
             <p className="text-primary">По этим условиям ЖК не нашлось.</p>
-            <button className="mt-3 text-sm font-semibold text-berry" onClick={() => nav({ search: {}, replace: true })}>Сбросить фильтры</button>
+            <button className="mt-3 text-sm font-semibold text-berry" onClick={async () => { await nav({ search: {}, replace: true }); window.__lovableEvents?.track?.("project.use_filter", { catalog: "complexes" }); metrikaGoal("use_filter", { catalog: "complexes" }); }}>Сбросить фильтры</button>
           </div>
         ) : (
           <ul className="mt-4 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

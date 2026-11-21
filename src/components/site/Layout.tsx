@@ -3,6 +3,7 @@ import { useState, type ReactNode } from "react";
 import { Menu, X, Phone, MessageCircle, Send } from "lucide-react";
 import { KeyIcon } from "./KeyIcon";
 import { BerryButton, PHONE, PHONE_HREF } from "./ui";
+import { metrikaGoal } from "@/lib/metrika";
 
 const NAV = [
   { to: "/kupit-kvartiru", label: "Купить" },
@@ -41,7 +42,7 @@ function Header() {
           ))}
         </nav>
         <div className="hidden items-center gap-4 lg:flex">
-          <a href={PHONE_HREF} className="text-sm font-semibold text-primary">{PHONE}</a>
+          <a href={PHONE_HREF} onClick={() => { window.__lovableEvents?.track?.("project.click_phone", {}); metrikaGoal("click_phone"); }} className="text-sm font-semibold text-primary">{PHONE}</a>
           <BerryButton />
         </div>
         <button className="rounded-lg p-2 text-primary lg:hidden" onClick={() => setOpen(!open)} aria-label="Меню">
@@ -57,7 +58,7 @@ function Header() {
               </Link>
             ))}
           </nav>
-          <a href={PHONE_HREF} className="mt-4 block font-semibold text-primary">{PHONE}</a>
+          <a href={PHONE_HREF} onClick={() => { window.__lovableEvents?.track?.("project.click_phone", {}); metrikaGoal("click_phone"); }} className="mt-4 block font-semibold text-primary">{PHONE}</a>
           <BerryButton className="mt-4 w-full" />
         </div>
       )}
@@ -85,7 +86,7 @@ function Footer() {
         </div>
         <div className="text-sm">
           <h4 className="font-bold">Контакты</h4>
-          <p className="mt-3 opacity-80"><a href={PHONE_HREF}>{PHONE}</a></p>
+          <p className="mt-3 opacity-80"><a href={PHONE_HREF} onClick={() => { window.__lovableEvents?.track?.("project.click_phone", {}); metrikaGoal("click_phone"); }}>{PHONE}</a></p>
           <p className="mt-1 opacity-80">info@kluchberi.ru</p>
           <p className="mt-1 opacity-80">Новосибирск, [заполнить адрес]</p>
           <h4 className="mt-5 font-bold">Часы работы</h4>
@@ -109,7 +110,7 @@ function MobileBar() {
   const item = "flex flex-col items-center gap-1 py-2 text-[11px] font-semibold text-primary";
   return (
     <nav className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-4 border-t bg-card/95 pb-[env(safe-area-inset-bottom)] shadow-lift backdrop-blur lg:hidden">
-      <a href={PHONE_HREF} className={item}><Phone className="h-5 w-5" />Позвонить</a>
+      <a href={PHONE_HREF} onClick={() => { window.__lovableEvents?.track?.("project.click_phone", {}); metrikaGoal("click_phone"); }} className={item}><Phone className="h-5 w-5" />Позвонить</a>
       <a href="https://wa.me/7383XXXXXXX" className={item}><MessageCircle className="h-5 w-5" />WhatsApp</a>
       <a href="https://t.me/kluchberi" className={item}><Send className="h-5 w-5" />Telegram</a>
       <Link to="/kontakty" className="key-turn m-1.5 flex flex-col items-center justify-center gap-1 rounded-xl bg-berry text-[11px] font-semibold text-berry-foreground">

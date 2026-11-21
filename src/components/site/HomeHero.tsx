@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import hero from "@/assets/hero.jpg";
 import { KeyIcon } from "./KeyIcon";
 import { cleanFilters, DISTRICTS, METRO } from "@/lib/catalog";
+import { metrikaGoal } from "@/lib/metrika";
 
 const field = "h-12 w-full rounded-xl border border-input bg-background px-3 text-sm text-primary outline-none focus:ring-2 focus:ring-ring";
 const label = "mb-1.5 block text-xs font-semibold text-muted-foreground";
@@ -46,10 +47,12 @@ export function HomeHero() {
 
       <form
         id="poisk"
-        onSubmit={(e) => { e.preventDefault(); const place = q.place.trim().toLowerCase();
+        onSubmit={async (e) => { e.preventDefault(); const place = q.place.trim().toLowerCase();
           const district = DISTRICTS.find((d) => place && d.toLowerCase().startsWith(place.slice(0, 5)));
           const metro = METRO.find((m) => place && m.toLowerCase().includes(place));
-          navigate({ to: "/kupit-kvartiru", search: cleanFilters({ type: q.type, rooms: q.rooms, price_from: q.budgetFrom.replace(/\D/g, ""), price_to: q.budgetTo.replace(/\D/g, ""), district, metro: district ? undefined : metro }) }); }}
+          await navigate({ to: "/kupit-kvartiru", search: cleanFilters({ type: q.type, rooms: q.rooms, price_from: q.budgetFrom.replace(/\D/g, ""), price_to: q.budgetTo.replace(/\D/g, ""), district, metro: district ? undefined : metro }) });
+          window.__lovableEvents?.track?.("project.use_filter", { catalog: "properties" });
+          metrikaGoal("use_filter", { catalog: "properties" }); }}
         className="relative z-10 mt-10 grid scroll-mt-24 grid-cols-2 gap-3 rounded-2xl bg-card p-4 shadow-lift md:p-5 lg:grid-cols-[1fr_1fr_1.4fr_1.3fr_auto] lg:items-end"
       >
         <div>

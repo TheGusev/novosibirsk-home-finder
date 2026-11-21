@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { monthlyPayment } from "@/lib/mortgage";
+import { metrikaGoal } from "@/lib/metrika";
 
 const fmt = (n: number) => Math.round(n).toLocaleString("ru-RU") + " ₽";
 const num = (s: string) => Number(s.replace(/\s/g, "").replace(",", ".")) || 0;
@@ -12,7 +13,11 @@ export function MortgageCalc() {
   const inp = (k: keyof typeof v, label: string, ph: string) => (
     <label className="block">
       <span className="mb-1.5 block text-xs font-semibold text-muted-foreground">{label}</span>
-      <input inputMode="decimal" placeholder={ph} className={field} value={v[k]} onChange={(e) => setV({ ...v, [k]: e.target.value })} />
+      <input inputMode="decimal" placeholder={ph} className={field} value={v[k]} onChange={(e) => setV({ ...v, [k]: e.target.value })} onBlur={() => {
+        if (!ready || num(v.down) < 0 || num(v.down) >= num(v.price) || num(v.rate) < 0) return;
+        window.__lovableEvents?.track?.("project.calc_mortgage", {});
+        metrikaGoal("calc_mortgage");
+      }} />
     </label>
   );
   return (

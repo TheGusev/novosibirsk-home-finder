@@ -5,6 +5,8 @@ import { Section } from "@/components/site/ui";
 import { LeadForm } from "@/components/site/LeadForm";
 import { firstImage, roomsLabel, rub, SOURCE_LABEL } from "@/lib/catalog";
 import { propertyQuery } from "@/lib/properties-query";
+import { useEffect } from "react";
+import { metrikaGoal } from "@/lib/metrika";
 
 export const Route = createFileRoute("/kvartira/$id")({
   loader: async ({ params, context }) => {
@@ -26,6 +28,11 @@ export const Route = createFileRoute("/kvartira/$id")({
 function Apartment() {
   const { id } = Route.useParams();
   const { data: l } = useSuspenseQuery(propertyQuery(id));
+  useEffect(() => {
+    if (!l) return;
+    window.__lovableEvents?.track?.("project.view_property", { housing_type: l.type });
+    metrikaGoal("view_property", { housing_type: l.type });
+  }, [l?.id]);
   if (!l) return null;
   const facts: [string, string][] = [
     ["Площадь", `${Number(l.area_total)} м²`],
@@ -56,7 +63,7 @@ function Apartment() {
             <h2 className="mt-8 text-xl font-bold text-primary">Описание</h2>
             <p className="mt-2 text-muted-foreground">{l.description ?? "[заполнить]"}</p>
           </div>
-          <LeadForm title="Записаться на просмотр" cta="Записаться" />
+          <LeadForm type="viewing" propertyId={l.id} title="Записаться на просмотр" cta="Записаться" />
         </div>
       </Section>
     </SiteLayout>

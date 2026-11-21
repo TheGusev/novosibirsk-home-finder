@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "events": {
+    "project.add_favorite": {
+      "event_schema_version": 1,
+      "description": "An apartment is added to favorites; removal does not count.",
+      "privacy": {
+        "contains_pii": false,
+        "purpose": "product_analytics"
+      },
+      "properties_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    "project.calc_mortgage": {
+      "event_schema_version": 1,
+      "description": "Valid mortgage input produces a calculation when the edited field loses focus.",
+      "privacy": {
+        "contains_pii": false,
+        "purpose": "product_analytics"
+      },
+      "properties_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    "project.click_phone": {
+      "event_schema_version": 1,
+      "description": "A telephone contact link is clicked.",
+      "privacy": {
+        "contains_pii": false,
+        "purpose": "product_analytics"
+      },
+      "properties_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {}
+      }
+    },
+    "project.open_form": {
+      "event_schema_version": 1,
+      "description": "A visitor first focuses a lead form.",
+      "privacy": {
+        "contains_pii": false,
+        "purpose": "product_analytics"
+      },
+      "properties_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "viewing",
+              "question",
+              "valuation",
+              "selection",
+              "mortgage",
+              "callback"
+            ]
+          }
+        }
+      }
+    },
+    "project.submit_lead": {
+      "event_schema_version": 1,
+      "description": "A lead was successfully saved. Viewing and valuation leads count toward the weekly saved-leads metric.",
+      "privacy": {
+        "contains_pii": false,
+        "purpose": "product_analytics"
+      },
+      "properties_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "viewing",
+              "question",
+              "valuation",
+              "selection",
+              "mortgage",
+              "callback"
+            ]
+          }
+        }
+      }
+    },
+    "project.use_filter": {
+      "event_schema_version": 1,
+      "description": "A catalog filter is applied or reset.",
+      "privacy": {
+        "contains_pii": false,
+        "purpose": "product_analytics"
+      },
+      "properties_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "catalog"
+        ],
+        "properties": {
+          "catalog": {
+            "type": "string",
+            "enum": [
+              "properties",
+              "complexes"
+            ]
+          }
+        }
+      }
+    },
+    "project.view_property": {
+      "event_schema_version": 1,
+      "description": "A loaded apartment detail is viewed.",
+      "privacy": {
+        "contains_pii": false,
+        "purpose": "product_analytics"
+      },
+      "properties_schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "housing_type"
+        ],
+        "properties": {
+          "housing_type": {
+            "type": "string",
+            "enum": [
+              "new",
+              "resale"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

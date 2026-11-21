@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
+import { metrikaGoal } from "@/lib/metrika";
 
 // Временное хранилище; после регистрации перенесём в базу.
 const KEY = "kluchberi:favorites";
@@ -30,6 +31,10 @@ export function useFavorites() {
     const next = cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id];
     localStorage.setItem(KEY, JSON.stringify(next));
     window.dispatchEvent(new Event(EVT));
+    if (!cur.includes(id)) {
+      window.__lovableEvents?.track?.("project.add_favorite", {});
+      metrikaGoal("add_favorite");
+    }
   }, []);
   return { ids, has: (id: string) => ids.includes(id), toggle };
 }

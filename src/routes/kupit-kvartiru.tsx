@@ -7,6 +7,7 @@ import { FilterPanel } from "@/components/site/FilterPanel";
 import { PropertyCard, PropertyCardSkeleton } from "@/components/site/PropertyCard";
 import { activeChips, applyFilters, catalogTitle, cleanFilters, parseFilters, removeChip, SORTS, type Filters } from "@/lib/catalog";
 import { propertiesQuery } from "@/lib/properties-query";
+import { metrikaGoal } from "@/lib/metrika";
 
 const CatalogMap = lazy(() => import("@/components/site/CatalogMap"));
 
@@ -55,8 +56,13 @@ function Catalog() {
   const draftCount = data ? applyFilters(data, draft).length : 0;
   const [activeId, setActiveId] = useState<string | null>(null);
 
-  const apply = (f: Filters, v: View = view) =>
-    navigate({ search: { ...cleanFilters(f), ...(v !== "grid" ? { view: v } : {}) }, replace: true, resetScroll: false });
+  const apply = async (f: Filters, v: View = view) => {
+    await navigate({ search: { ...cleanFilters(f), ...(v !== "grid" ? { view: v } : {}) }, replace: true, resetScroll: false });
+    if (JSON.stringify(cleanFilters(f)) !== JSON.stringify(cleanFilters(filters))) {
+      window.__lovableEvents?.track?.("project.use_filter", { catalog: "properties" });
+      metrikaGoal("use_filter", { catalog: "properties" });
+    }
+  };
 
   const openSheet = () => { setDraft(filters); setSheet(true); };
   const selectFromMap = (id: string) => {

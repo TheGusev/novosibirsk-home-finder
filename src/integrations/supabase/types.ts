@@ -141,33 +141,92 @@ export type Database = {
       }
       leads: {
         Row: {
+          assigned_to: string | null
+          budget: number | null
           consent: boolean
+          consent_at: string | null
+          consent_given: boolean
           created_at: string
           details: Json
+          district: string | null
           id: string
           kind: string
+          message: string | null
           name: string | null
+          notes: string | null
           phone: string
+          property_id: string | null
+          referrer: string | null
+          rooms: string | null
+          source_page: string | null
+          status: string
+          type: string
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
         }
         Insert: {
+          assigned_to?: string | null
+          budget?: number | null
           consent: boolean
+          consent_at?: string | null
+          consent_given?: boolean
           created_at?: string
           details?: Json
+          district?: string | null
           id?: string
           kind: string
+          message?: string | null
           name?: string | null
+          notes?: string | null
           phone: string
+          property_id?: string | null
+          referrer?: string | null
+          rooms?: string | null
+          source_page?: string | null
+          status?: string
+          type?: string
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
         }
         Update: {
+          assigned_to?: string | null
+          budget?: number | null
           consent?: boolean
+          consent_at?: string | null
+          consent_given?: boolean
           created_at?: string
           details?: Json
+          district?: string | null
           id?: string
           kind?: string
+          message?: string | null
           name?: string | null
+          notes?: string | null
           phone?: string
+          property_id?: string | null
+          referrer?: string | null
+          rooms?: string | null
+          source_page?: string | null
+          status?: string
+          type?: string
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "leads_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       properties: {
         Row: {
@@ -339,6 +398,24 @@ export type Database = {
         }
         Relationships: []
       }
+      user_roles: {
+        Row: {
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       viewing_requests: {
         Row: {
           consent: boolean
@@ -385,7 +462,8 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      create_lead: { Args: { payload: Json }; Returns: string }
+      is_lead_staff: { Args: never; Returns: boolean }
     }
     Enums: {
       [_ in never]: never
