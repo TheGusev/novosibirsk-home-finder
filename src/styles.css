@@ -6,12 +6,12 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --font-sans: "Manrope", system-ui, sans-serif;
+  --font-sans: "Manrope Variable", "Manrope", system-ui, sans-serif;
   --radius-sm: calc(var(--radius) - 6px);
   --radius-md: calc(var(--radius) - 4px);
   --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 2px);
-  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-xl: var(--radius);
+  --radius-2xl: calc(var(--radius) + 2px);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -26,9 +26,9 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
-  --color-berry: var(--berry);
-  --color-berry-foreground: var(--berry-foreground);
-  --color-berry-soft: var(--berry-soft);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-soft: var(--brand-soft);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
@@ -39,31 +39,32 @@
 }
 
 :root {
-  --radius: 1rem;
-  --background: oklch(0.982 0.007 75);
-  --foreground: oklch(0.28 0.06 262);
+  --radius: 0.625rem;
+  --background: oklch(0.985 0.004 85);
+  --foreground: oklch(0.24 0.008 255);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.28 0.06 262);
+  --card-foreground: oklch(0.24 0.008 255);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.28 0.06 262);
-  --primary: oklch(0.28 0.06 262); /* #1B2A4A */
-  --primary-foreground: oklch(0.982 0.007 75);
-  --secondary: oklch(0.955 0.012 75);
-  --secondary-foreground: oklch(0.28 0.06 262);
-  --muted: oklch(0.955 0.012 75);
-  --muted-foreground: oklch(0.5 0.03 262);
-  --accent: oklch(0.94 0.015 262);
-  --accent-foreground: oklch(0.28 0.06 262);
-  --berry: oklch(0.5 0.17 0); /* #B0285A */
-  --berry-foreground: oklch(0.99 0.005 0);
-  --berry-soft: oklch(0.95 0.03 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(0.91 0.012 75);
-  --input: oklch(0.89 0.014 75);
-  --ring: oklch(0.5 0.17 0);
-  --shadow-soft-v: 0 1px 2px oklch(0.28 0.06 262 / 0.04), 0 8px 24px -12px oklch(0.28 0.06 262 / 0.14);
-  --shadow-lift-v: 0 18px 40px -18px oklch(0.28 0.06 262 / 0.28);
+  --popover-foreground: oklch(0.24 0.008 255);
+  --primary: oklch(0.24 0.008 255); /* графит */
+  --primary-foreground: oklch(0.985 0.004 85);
+  --secondary: oklch(0.955 0.005 85);
+  --secondary-foreground: oklch(0.24 0.008 255);
+  --muted: oklch(0.955 0.005 85);
+  --muted-foreground: oklch(0.5 0.01 255);
+  --accent: oklch(0.95 0.012 190);
+  --accent-foreground: oklch(0.3 0.05 190);
+  /* Единственный акцент бренда — заменяется здесь без правки компонентов */
+  --brand: oklch(0.43 0.065 190);
+  --brand-foreground: oklch(0.99 0.003 190);
+  --brand-soft: oklch(0.95 0.02 190);
+  --destructive: oklch(0.55 0.2 27);
+  --destructive-foreground: oklch(0.99 0.003 27);
+  --border: oklch(0.905 0.005 85);
+  --input: oklch(0.86 0.006 85);
+  --ring: oklch(0.43 0.065 190);
+  --shadow-soft-v: 0 1px 2px oklch(0.24 0.008 255 / 0.05);
+  --shadow-lift-v: 0 8px 24px -12px oklch(0.24 0.008 255 / 0.22);
 }
 
 @layer base {
@@ -75,30 +76,26 @@
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
-  h1, h2, h3 { letter-spacing: -0.02em; text-wrap: balance; }
+  h1, h2, h3 { letter-spacing: -0.015em; text-wrap: balance; }
+  :focus-visible { outline: 2px solid var(--color-ring); outline-offset: 2px; }
+  .tabular { font-variant-numeric: tabular-nums; }
 }
 
-@utility key-turn {
-  & .key-icon { transition: transform 0.35s cubic-bezier(.34,1.56,.64,1); transform-origin: 30% 50%; }
-  &:hover .key-icon { transform: rotate(-28deg); }
-}
-
-/* Маркеры карты — ключ с ценой */
+/* Маркеры карты — цена */
 .map-pin {
   display: inline-flex; align-items: center; gap: 4px; padding: 6px 10px 6px 8px;
-  border-radius: 999px; background: var(--card); color: var(--berry);
+  border-radius: 6px; background: var(--card); color: var(--primary);
   font: 700 12px/1 var(--font-sans); white-space: nowrap;
-  box-shadow: var(--shadow-lift-v); border: 2px solid var(--berry);
+  box-shadow: var(--shadow-lift-v); border: 1px solid var(--border);
   transition: transform .2s;
 }
 .map-pin span { color: var(--primary); }
-.map-pin.is-active { background: var(--berry); color: var(--berry-foreground); transform: scale(1.12); }
-.map-pin.is-active span { color: var(--berry-foreground); }
+.map-pin.is-active { background: var(--brand); color: var(--brand-foreground); transform: scale(1.12); }
+.map-pin.is-active span { color: var(--brand-foreground); }
 .leaflet-container { font-family: var(--font-sans); background: var(--muted); }
 
 /* Room tour */
-.tour-shell { height: calc(100vh - 72px - 64px); height: calc(100svh - 72px - 64px - env(safe-area-inset-bottom)); min-height: 460px; }
-@media (min-width: 1024px) { .tour-shell { height: calc(100vh - 72px); height: calc(100svh - 72px); min-height: 560px; } }
+.tour-shell { height: 100vh; height: 100dvh; min-height: 420px; }
 .tour-shell:fullscreen { height: 100vh; height: 100dvh; }
 @utility glass {
   background: color-mix(in oklab, var(--card) 94%, transparent);

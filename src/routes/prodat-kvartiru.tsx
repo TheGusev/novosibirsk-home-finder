@@ -2,32 +2,31 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/Layout";
 import { Card, Section, Steps, head } from "@/components/site/ui";
 import { LeadForm, fieldCls } from "@/components/site/LeadForm";
-import { KeyIcon } from "@/components/site/KeyIcon";
 import { ROOMS } from "@/lib/catalog";
 
 const H2 = ({ children }: { children: string }) => (
-  <h2 className="flex items-center gap-2 text-2xl font-extrabold text-primary md:text-3xl"><KeyIcon className="h-6 w-6 text-berry" />{children}</h2>
+  <h2 className="flex items-center gap-2 text-2xl font-bold text-primary md:text-3xl">{children}</h2>
 );
 const Bullets = ({ items }: { items: string[] }) => (
   <ul className="mt-5 grid gap-3 md:grid-cols-2">
-    {items.map((t) => <li key={t} className="flex gap-3 rounded-xl bg-card p-4 text-sm text-primary shadow-soft"><span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-berry" />{t}</li>)}
+    {items.map((t) => <li key={t} className="flex gap-3 rounded-md bg-card p-4 text-sm text-primary border"><span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-brand" />{t}</li>)}
   </ul>
 );
 
 export const Route = createFileRoute("/prodat-kvartiru")({
   staticData: { sitemap: true },
-  head: () => head("Продать квартиру в Новосибирске", "Как «Ключбери» определяет цену, этапы продажи, документы от собственника и бесплатная заявка на оценку квартиры.", "/prodat-kvartiru"),
+  head: () => head("Продать квартиру в Новосибирске", "Как мы определяет цену, этапы продажи, документы от собственника и бесплатная заявка на оценку квартиры.", "/prodat-kvartiru"),
   component: Sell,
 });
 
 function Sell() {
   return (
     <SiteLayout>
-      <div className="mx-auto max-w-6xl px-4 pt-10 md:px-6 md:pt-16">
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-berry">Продать</p>
-        <h1 className="mt-3 max-w-3xl text-3xl font-extrabold text-primary md:text-5xl">Продать квартиру в Новосибирске</h1>
+      <div className="mx-auto max-w-[1280px] px-4 pt-10 md:px-6 md:pt-16">
+        <p className="text-sm text-muted-foreground">Продать</p>
+        <h1 className="mt-3 max-w-3xl text-3xl font-bold text-primary md:text-[2.5rem]">Продать квартиру в Новосибирске</h1>
         <p className="mt-4 max-w-2xl text-base text-muted-foreground md:text-lg">Назначим цену по рынку, подготовим объект и проведём сделку. Сроки продажи зависят от спроса и цены — их мы честно обсуждаем, а не обещаем.</p>
-        <a href="#ocenka" className="key-turn mt-6 inline-flex items-center gap-2 rounded-xl bg-berry px-5 py-3 text-sm font-semibold text-berry-foreground shadow-soft hover:brightness-110"><KeyIcon className="h-5 w-5" />Получить оценку</a>
+        <a href="#ocenka" className="mt-6 inline-flex items-center gap-2 rounded-md bg-brand px-5 py-3 text-sm font-semibold text-brand-foreground shadow-soft hover:brightness-110">Получить оценку</a>
       </div>
 
       <Section>
@@ -58,13 +57,13 @@ function Sell() {
           <H2>Что входит в услугу</H2>
           <ul className="mt-5 grid gap-2 text-sm text-primary">
             {["Оценка и стратегия цены", "Проверка и подготовка документов", "Фото и текст объявления", "Размещение на площадках", "Показы", "Переговоры с покупателями", "Подготовка договоров", "Сопровождение расчётов и регистрации"].map((t) => (
-              <li key={t} className="flex gap-2"><span className="text-berry">✓</span>{t}</li>
+              <li key={t} className="flex gap-2"><span className="text-brand">✓</span>{t}</li>
             ))}
           </ul>
         </div>
         <Card>
           <h3 className="text-lg font-bold text-primary">Стоимость услуги</h3>
-          <p className="mt-2 text-2xl font-extrabold text-primary">[заполнить]</p>
+          <p className="mt-2 text-2xl font-bold text-primary">[заполнить]</p>
           <p className="mt-2 text-sm text-muted-foreground">Точные условия и порядок оплаты прописываются в договоре до начала работы. [заполнить]</p>
         </Card>
       </Section>
@@ -83,8 +82,8 @@ function Sell() {
       </Section>
 
       <Section id="prodat-i-kupit" className="pt-0 md:pt-0">
-        <div className="rounded-2xl bg-primary p-6 text-primary-foreground md:p-10">
-          <h2 className="text-2xl font-extrabold md:text-3xl">Продать и купить другую</h2>
+        <div className="rounded-lg bg-primary p-6 text-primary-foreground md:p-10">
+          <h2 className="text-2xl font-bold md:text-3xl">Продать и купить другую</h2>
           <p className="mt-3 max-w-3xl text-primary-foreground/80">Когда деньги от продажи нужны на покупку, важна последовательность — чтобы не остаться без жилья и не потерять задаток.</p>
           <ol className="mt-6 grid gap-4 md:grid-cols-2">
             {[
@@ -93,8 +92,8 @@ function Sell() {
               ["Согласуем сроки обеих сторон", "Покупатель и продавец знают, что сделка связанная, — условия фиксируются в задатках"],
               ["Проводим сделки в один день или по цепочке", "Расчёты и регистрация так, чтобы деньги и ключи переходили согласованно"],
             ].map(([t, d], i) => (
-              <li key={t} className="rounded-xl bg-primary-foreground/10 p-5">
-                <span className="text-sm font-bold text-berry-foreground/90">{i + 1}.</span> <span className="font-bold">{t}</span>
+              <li key={t} className="rounded-md bg-primary-foreground/10 p-5">
+                <span className="text-sm font-bold text-brand-foreground/90">{i + 1}.</span> <span className="font-bold">{t}</span>
                 <p className="mt-1 text-sm text-primary-foreground/80">{d}</p>
               </li>
             ))}

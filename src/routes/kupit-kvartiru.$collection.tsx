@@ -31,7 +31,7 @@ export const Route = createFileRoute('/kupit-kvartiru/$collection')({
       schemas: [breadcrumbs([{ name: 'Главная', path: '/' }, { name: 'Купить квартиру', path: '/kupit-kvartiru' }, { name: c.title, path }]), faqSchema(collectionFaq(c.title))] });
   },
   errorComponent: () => <SiteLayout><Section><h1 className="text-2xl font-bold text-primary">Не удалось загрузить подборку</h1><p className="mt-3 text-muted-foreground">Обновите страницу, чтобы повторить загрузку.</p></Section></SiteLayout>,
-  notFoundComponent: () => <SiteLayout><Section><h1 className="text-2xl font-bold text-primary">Подборка не найдена</h1><Link to="/kupit-kvartiru" className="text-berry">Все квартиры</Link></Section></SiteLayout>,
+  notFoundComponent: () => <SiteLayout><Section><h1 className="text-2xl font-bold text-primary">Подборка не найдена</h1><Link to="/kupit-kvartiru" className="text-brand">Все квартиры</Link></Section></SiteLayout>,
   component: CollectionPage,
 });
 function CollectionPage() {
@@ -41,11 +41,11 @@ function CollectionPage() {
   const chips = activeChips(filters);
   return <SiteLayout><Section className="pt-6 md:pt-10">
     <nav aria-label="Хлебные крошки" className="text-sm text-muted-foreground"><Link to="/">Главная</Link> / <Link to="/kupit-kvartiru">Купить квартиру</Link> / <span>{c.title}</span></nav>
-    <h1 className="mt-6 text-3xl font-extrabold text-primary md:text-4xl">{c.title}</h1>
+    <h1 className="mt-6 text-3xl font-bold text-primary md:text-2xl">{c.title}</h1>
     <p className="mt-4 max-w-3xl leading-relaxed text-muted-foreground">{c.intro}</p>
     <p className="mt-6 font-semibold text-primary">Найдено {items.length}</p>
     <p className="mt-2 text-sm text-muted-foreground">{chips.map(chip => chip.label).join(' · ')}</p>
-    <Link to="/kupit-kvartiru" search={filters} className="mt-4 inline-block text-sm font-semibold text-berry underline">Уточнить условия поиска</Link>
+    <Link to="/kupit-kvartiru" search={filters} className="mt-4 inline-block text-sm font-semibold text-brand underline">Уточнить условия поиска</Link>
     {items.length ? <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{items.map(p => <PropertyCard key={p.id} p={p} />)}</div> : <div className="mt-8 border-y py-8"><h2 className="text-lg font-bold text-primary">Пока нет подходящих квартир</h2><p className="mt-2 text-muted-foreground">Посмотрите соседние подборки или измените условия в каталоге.</p></div>}
     <h2 className="mt-12 text-2xl font-bold text-primary">Вопросы о покупке</h2>
     <div className="mt-4 divide-y">{collectionFaq(c.title).map(([q, a]) => <details key={q} className="py-4"><summary className="cursor-pointer font-semibold text-primary">{q}</summary><p className="mt-3 text-sm leading-relaxed text-muted-foreground">{a}</p></details>)}</div>

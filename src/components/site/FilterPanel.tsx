@@ -1,6 +1,6 @@
 import { DISTRICTS, FINISHES, FLOOR_OPTS, HOUSE_TYPES, METRO, ROOMS, roomsList, type Filters } from "@/lib/catalog";
 
-const field = "h-11 w-full rounded-xl border border-input bg-background px-3 text-sm text-primary outline-none focus:ring-2 focus:ring-ring";
+const field = "h-11 w-full rounded-md border-input bg-background px-3 text-sm text-primary outline-none focus:ring-2 focus:ring-ring";
 const lbl = "mb-1.5 block text-xs font-semibold text-muted-foreground";
 
 type Props = { value: Filters; onChange: (f: Filters) => void };
@@ -12,7 +12,7 @@ function Seg({ options, value, onPick }: { options: { v: string; l: string }[]; 
         const on = value.includes(o.v);
         return (
           <button key={o.v} type="button" aria-pressed={on} onClick={() => onPick(o.v)}
-            className={`h-10 min-w-12 rounded-xl px-3 text-sm font-semibold transition ${on ? "bg-primary text-primary-foreground" : "border border-input bg-background text-primary hover:border-primary/40"}`}>
+            className={`h-10 min-w-12 rounded-md px-3 text-sm font-semibold transition ${on ? "bg-primary text-primary-foreground" : "border-input bg-background text-primary hover:border-primary/40"}`}>
             {o.l}
           </button>
         );

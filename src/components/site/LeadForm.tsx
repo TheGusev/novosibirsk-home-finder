@@ -1,12 +1,11 @@
 import { useRef, useState, type ReactNode } from "react";
-import { KeyIcon } from "./KeyIcon";
 import { LEAD_SUCCESS, submitLead, type LeadKind, type LeadType } from "@/lib/leads";
 import { maskPhone } from "@/lib/lead-schema";
 import { metrikaGoal } from "@/lib/metrika";
 import { Button } from "@/components/ui/button";
 import { DISTRICTS, ROOMS } from "@/lib/catalog";
 
-export const fieldCls = "h-12 w-full rounded-xl border border-input bg-background px-4 text-sm text-primary outline-none focus:ring-2 focus:ring-ring";
+export const fieldCls = "h-12 w-full rounded-md border-input bg-background px-4 text-sm text-primary outline-none focus:ring-2 focus:ring-ring";
 
 type Props = {
   title?: string;
@@ -32,10 +31,10 @@ export function LeadForm({ title = "Оставьте заявку", cta = "От�
   const submitting = useRef(false);
   const category = type ?? (kind === "valuation" ? "valuation" : kind === "complex_selection" || kind === "rent" ? "selection" : "question");
   return (
-    <div className="rounded-2xl bg-card p-6 shadow-soft md:p-8">
+    <div className="rounded-lg bg-card p-6 border md:p-8">
       <h3 className="text-xl font-bold text-primary">{title}</h3>
       {sent ? (
-        <p role="status" className="mt-4 rounded-xl bg-berry-soft p-4 text-sm text-primary">{LEAD_SUCCESS}</p>
+        <p role="status" className="mt-4 rounded-md bg-brand-soft p-4 text-sm text-primary">{LEAD_SUCCESS}</p>
       ) : (
         <form
           className="mt-5 grid gap-3"
@@ -69,14 +68,14 @@ export function LeadForm({ title = "Оставьте заявку", cta = "От�
             <select name="district" aria-label="Район" className={fieldCls}><option value="">Район</option>{DISTRICTS.map(d => <option key={d}>{d}</option>)}</select>
           </div>}
           <label className="sr-only" aria-hidden="true">Ваш сайт<input name="website" tabIndex={-1} autoComplete="off" maxLength={200} /></label>
-          {showComment && <textarea name="comment" rows={3} maxLength={1000} placeholder={commentPlaceholder} className="rounded-xl border border-input bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring" />}
+          {showComment && <textarea name="comment" rows={3} maxLength={1000} placeholder={commentPlaceholder} className="border rounded-md border-input bg-background px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-ring" />}
           <label className="flex items-start gap-2 text-xs text-muted-foreground">
-            <input name="consent" required type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} className="mt-0.5 accent-berry" />
+            <input name="consent" required type="checkbox" checked={consent} onChange={e => setConsent(e.target.checked)} className="mt-0.5 accent-brand" />
             <span>Согласен на обработку персональных данных согласно <a href="/politika" className="underline">политике конфиденциальности</a></span>
           </label>
           {err && <p role="alert" className="text-sm text-destructive">{err}</p>}
-          <Button type="submit" disabled={busy || !consent} className="key-turn mt-1 h-12 rounded-xl bg-berry font-semibold text-berry-foreground hover:bg-berry hover:brightness-110">
-            <KeyIcon /> {busy ? "Отправляем…" : cta}
+          <Button type="submit" disabled={busy || !consent} className="mt-1 h-12 rounded-md bg-brand font-semibold text-brand-foreground hover:bg-brand hover:brightness-110">
+             {busy ? "Отправляем…" : cta}
           </Button>
         </form>
       )}

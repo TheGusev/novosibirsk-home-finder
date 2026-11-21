@@ -18,6 +18,7 @@ import { Route as ProdatIKupitRouteImport } from './routes/prodat-i-kupit'
 import { Route as ProdatKvartiruRouteImport } from './routes/prodat-kvartiru'
 import { Route as ProverkaObektaRouteImport } from './routes/proverka-obekta'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as TurRouteImport } from './routes/tur'
 import { Route as KupitKvartiruIndexRouteImport } from './routes/kupit-kvartiru.index'
 import { Route as KupitKvartiruCollectionRouteImport } from './routes/kupit-kvartiru.$collection'
 import { Route as KvartiraIdRouteImport } from './routes/kvartira.$id'
@@ -69,6 +70,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TurRoute = TurRouteImport.update({
+  id: '/tur',
+  path: '/tur',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const KupitKvartiruIndexRoute = KupitKvartiruIndexRouteImport.update({
   id: '/kupit-kvartiru/',
   path: '/kupit-kvartiru/',
@@ -105,6 +111,7 @@ export interface FileRoutesByFullPath {
   '/prodat-kvartiru': typeof ProdatKvartiruRoute
   '/proverka-obekta': typeof ProverkaObektaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/tur': typeof TurRoute
   '/kupit-kvartiru/$collection': typeof KupitKvartiruCollectionRoute
   '/kvartira/$id': typeof KvartiraIdRoute
   '/novostroyki/$slug': typeof NovostroykiSlugRoute
@@ -121,6 +128,7 @@ export interface FileRoutesByTo {
   '/prodat-kvartiru': typeof ProdatKvartiruRoute
   '/proverka-obekta': typeof ProverkaObektaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/tur': typeof TurRoute
   '/kupit-kvartiru/$collection': typeof KupitKvartiruCollectionRoute
   '/kvartira/$id': typeof KvartiraIdRoute
   '/novostroyki/$slug': typeof NovostroykiSlugRoute
@@ -138,6 +146,7 @@ export interface FileRoutesById {
   '/prodat-kvartiru': typeof ProdatKvartiruRoute
   '/proverka-obekta': typeof ProverkaObektaRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/tur': typeof TurRoute
   '/kupit-kvartiru/$collection': typeof KupitKvartiruCollectionRoute
   '/kvartira/$id': typeof KvartiraIdRoute
   '/novostroyki/$slug': typeof NovostroykiSlugRoute
@@ -156,6 +165,7 @@ export interface FileRouteTypes {
     | '/prodat-kvartiru'
     | '/proverka-obekta'
     | '/sitemap.xml'
+    | '/tur'
     | '/kupit-kvartiru/$collection'
     | '/kvartira/$id'
     | '/novostroyki/$slug'
@@ -172,6 +182,7 @@ export interface FileRouteTypes {
     | '/prodat-kvartiru'
     | '/proverka-obekta'
     | '/sitemap.xml'
+    | '/tur'
     | '/kupit-kvartiru/$collection'
     | '/kvartira/$id'
     | '/novostroyki/$slug'
@@ -188,6 +199,7 @@ export interface FileRouteTypes {
     | '/prodat-kvartiru'
     | '/proverka-obekta'
     | '/sitemap.xml'
+    | '/tur'
     | '/kupit-kvartiru/$collection'
     | '/kvartira/$id'
     | '/novostroyki/$slug'
@@ -205,6 +217,7 @@ export interface RootRouteChildren {
   ProdatKvartiruRoute: typeof ProdatKvartiruRoute
   ProverkaObektaRoute: typeof ProverkaObektaRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TurRoute: typeof TurRoute
   KupitKvartiruCollectionRoute: typeof KupitKvartiruCollectionRoute
   KvartiraIdRoute: typeof KvartiraIdRoute
   NovostroykiSlugRoute: typeof NovostroykiSlugRoute
@@ -277,6 +290,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tur': {
+      id: '/tur'
+      path: '/tur'
+      fullPath: '/tur'
+      preLoaderRoute: typeof TurRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/kupit-kvartiru/': {
       id: '/kupit-kvartiru/'
       path: '/kupit-kvartiru'
@@ -325,6 +345,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProdatKvartiruRoute: ProdatKvartiruRoute,
   ProverkaObektaRoute: ProverkaObektaRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TurRoute: TurRoute,
   KupitKvartiruCollectionRoute: KupitKvartiruCollectionRoute,
   KvartiraIdRoute: KvartiraIdRoute,
   NovostroykiSlugRoute: NovostroykiSlugRoute,

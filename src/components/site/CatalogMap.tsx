@@ -3,12 +3,11 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { rub, type Property } from "@/lib/catalog";
 
-const keySvg = `<svg viewBox="0 0 32 32" width="18" height="18" fill="none"><path d="M11.5 6.5c-4 0-6.5 2.8-6.5 6.2 0 3.6 3 6.3 6.5 6.3s6.5-2.7 6.5-6.3c0-3.4-2.5-6.2-6.5-6.2Z" fill="currentColor"/><path d="M17.6 12.7H29M25 12.7v4M28 12.7v3" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>`;
 
 function icon(p: Property, active: boolean) {
   return L.divIcon({
     className: "",
-    html: `<div class="map-pin ${active ? "is-active" : ""}">${keySvg}<span>${Math.round(p.price / 100000) / 10} млн</span></div>`,
+    html: `<div class="map-pin ${active ? "is-active" : ""}"><span>${Math.round(p.price / 100000) / 10} млн</span></div>`,
     iconSize: [86, 34],
     iconAnchor: [43, 34],
   });

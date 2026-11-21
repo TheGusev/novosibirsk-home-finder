@@ -1,3 +1,4 @@
+import { SITE } from "@/config/site";
 import { seoSettingsQuery, organizationSchema } from "@/lib/seo";
 import manropeCyrillic from "@fontsource-variable/manrope/files/manrope-cyrillic-wght-normal.woff2?url";
 import manropeLatin from "@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url";
@@ -68,7 +69,7 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            className="border inline-flex items-center justify-center rounded-md border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
           >
             Go home
           </a>
@@ -85,11 +86,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { property: "og:site_name", content: "Ключбери" },
+      { property: "og:site_name", content: SITE.name },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    scripts: loaderData ? [{ type: "application/ld+json", children: JSON.stringify(organizationSchema(loaderData)).replace(/</g, "\\u003c") }] : [],
+    scripts: loaderData && organizationSchema(loaderData) ? [{ type: "application/ld+json", children: JSON.stringify(organizationSchema(loaderData)).replace(/</g, "\\u003c") }] : [],
     links: [
       { rel: "preload", href: manropeCyrillic, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
       { rel: "preload", href: manropeLatin, as: "font", type: "font/woff2", crossOrigin: "anonymous" },

@@ -22,7 +22,7 @@ export const Route = createFileRoute("/novostroyki/$slug")({
   },
   errorComponent: () => <SiteLayout><Section><p className="text-primary">Не удалось загрузить ЖК. Обновите страницу.</p></Section></SiteLayout>,
   notFoundComponent: () => (
-    <SiteLayout><Section><h1 className="text-3xl font-bold text-primary">ЖК не найден</h1><Link to="/novostroyki" className="mt-4 inline-block text-berry">Все новостройки →</Link></Section></SiteLayout>
+    <SiteLayout><Section><h1 className="text-3xl font-bold text-primary">ЖК не найден</h1><Link to="/novostroyki" className="mt-4 inline-block text-brand">Все новостройки →</Link></Section></SiteLayout>
   ),
   component: ComplexPage,
 });
@@ -47,24 +47,24 @@ function ComplexPage() {
           <Link to="/">Главная</Link> / <Link to="/novostroyki">Новостройки</Link> / <span className="text-primary">{c.name}</span>
         </nav>
         <div className="relative mt-4">
-          <img src={complexImage(c)} alt={c.name} width={1200} height={900} fetchPriority="high" className="aspect-[16/8] w-full rounded-2xl object-cover shadow-lift" />
+          <img src={complexImage(c)} alt={c.name} width={1200} height={900} fetchPriority="high" className="aspect-[16/8] w-full rounded-lg object-cover shadow-soft" />
           {c.name.startsWith("Демо") && <span className="absolute bottom-3 right-3 rounded-full bg-card/90 px-3 py-1 text-xs font-semibold text-primary">Демо</span>}
         </div>
         <div className="mt-8 grid gap-10 md:grid-cols-[1fr_380px]">
           <div>
-            <h1 className="text-3xl font-extrabold text-primary md:text-4xl">{c.name}</h1>
-            {c.commission_note && <p className="mt-3 inline-block rounded-full bg-berry-soft px-3 py-1 text-sm font-semibold text-berry">{c.commission_note}</p>}
+            <h1 className="text-3xl font-bold text-primary md:text-2xl">{c.name}</h1>
+            {c.commission_note && <p className="mt-3 inline-block rounded-full bg-brand-soft px-3 py-1 text-sm font-semibold text-brand">{c.commission_note}</p>}
             <dl className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
               {facts.map(([k, v]) => (
-                <div key={k} className="rounded-xl bg-card p-4 shadow-soft"><dt className="text-xs text-muted-foreground">{k}</dt><dd className="mt-1 font-semibold text-primary">{v}</dd></div>
+                <div key={k} className="rounded-md bg-card p-4 border"><dt className="text-xs text-muted-foreground">{k}</dt><dd className="mt-1 font-semibold text-primary">{v}</dd></div>
               ))}
             </dl>
             <h2 className="mt-10 text-2xl font-bold text-primary">Планировки</h2>
             {layouts.length === 0 ? <p className="mt-3 text-muted-foreground">Планировки скоро появятся. [заполнить]</p> : (
               <ul className="mt-4 grid gap-4 sm:grid-cols-2">
                 {layouts.map((l) => (
-                  <li key={l.id} className="flex gap-4 rounded-2xl bg-card p-4 shadow-soft">
-                    <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-muted text-xs text-muted-foreground">
+                  <li key={l.id} className="flex gap-4 rounded-lg bg-card p-4 border">
+                    <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-md bg-muted text-xs text-muted-foreground">
                       {l.image ? <img src={l.image} alt={`Планировка ${roomsLabel(l.rooms)}`} loading="lazy" width={600} height={600} className="h-full w-full object-contain" /> : "План [заполнить]"}
                     </div>
                     <div>

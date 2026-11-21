@@ -6,7 +6,6 @@ import { clampPoint, coverPoint, resolveScene } from "@/lib/tour/geometry";
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { LeadForm } from "@/components/site/LeadForm";
-import { KeyIcon } from "@/components/site/KeyIcon";
 import { TourPlan } from "./TourPlan";
 
 const HINT_KEY = "kb_tour_hint_seen";
@@ -20,7 +19,8 @@ export function RoomTourViewer({ bundle, room }: { bundle: TourBundle; room: str
   const scene = scenes.find(s => s.id === sceneId)!;
   const shell = useRef<HTMLDivElement>(null);
   const [box, setBox] = useState({ w: 0, h: 0 });
-  const [intro, setIntro] = useState(true);
+  const [intro, setIntro] = useState(false);
+  useEffect(() => { try { if (!localStorage.getItem(HINT_KEY)) setHint(true); } catch { /* storage unavailable */ } }, []);
   const [hint, setHint] = useState(false);
   const [panel, setPanel] = useState<Panel>(null);
   const [loaded, setLoaded] = useState<Record<string, boolean>>({});
@@ -48,7 +48,7 @@ export function RoomTourViewer({ bundle, room }: { bundle: TourBundle; room: str
 
   const go = useCallback((id: string) => {
     if (id === sceneId) return;
-    void navigate({ to: "/", search: { room: id }, resetScroll: false });
+    void navigate({ to: "/tur", search: { room: id }, replace: false, resetScroll: false });
   }, [navigate, sceneId]);
 
   const start = () => {
@@ -79,14 +79,14 @@ export function RoomTourViewer({ bundle, room }: { bundle: TourBundle; room: str
       ))}
       <div aria-hidden className="pointer-events-none absolute inset-0 bg-gradient-to-b from-primary/35 via-transparent to-primary/45" />
 
-      {!ready && !bad && <div role="status" className="glass absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-2xl px-4 py-3 text-sm font-semibold text-primary">Загружаем «{scene.title}»…</div>}
+      {!ready && !bad && <div role="status" className="glass absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg px-4 py-3 text-sm font-semibold text-primary">Загружаем «{scene.title}»…</div>}
       {bad && (
-        <div role="alert" className="absolute inset-x-4 top-1/2 mx-auto max-w-sm -translate-y-1/2 rounded-2xl bg-card p-5 text-sm text-primary shadow-lift">
+        <div role="alert" className="absolute inset-x-4 top-1/2 mx-auto max-w-sm -translate-y-1/2 rounded-lg bg-card p-5 text-sm text-primary border">
           <p className="font-bold">Не удалось загрузить сцену</p>
           <p className="mt-1 text-muted-foreground">Проверьте соединение. Каталог и связь работают как обычно.</p>
           <div className="mt-3 flex gap-2">
-            <button onClick={() => setFailed(f => ({ ...f, [sceneId]: false }))} className="h-11 rounded-xl bg-primary px-4 font-semibold text-primary-foreground">Повторить</button>
-            <Link to="/kupit-kvartiru" className="inline-flex h-11 items-center rounded-xl border px-4 font-semibold">Каталог</Link>
+            <button onClick={() => setFailed(f => ({ ...f, [sceneId]: false }))} className="h-11 rounded-md bg-primary px-4 font-semibold text-primary-foreground">Повторить</button>
+            <Link to="/kupit-kvartiru" className="inline-flex h-11 items-center rounded-md border px-4 font-semibold">Каталог</Link>
           </div>
         </div>
       )}
@@ -94,10 +94,11 @@ export function RoomTourViewer({ bundle, room }: { bundle: TourBundle; room: str
       {/* Top row: demo label + room label + object info */}
       <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-2 p-3 pl-[max(0.75rem,env(safe-area-inset-left))] pr-[max(0.75rem,env(safe-area-inset-right))] md:p-5">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="rounded-full bg-berry px-3 py-1 text-xs font-bold text-berry-foreground">Демонстрационный тур</span>
-          {!intro && <span aria-live="polite" className="glass rounded-full px-3 py-1 text-xs font-semibold text-primary">{scene.title}</span>}
+          <Link to="/" aria-label="Выйти из тура" className="glass inline-flex h-11 items-center gap-1.5 rounded-md px-3 text-sm font-semibold text-primary"><X className="h-4 w-4" /> Выйти</Link>
+          <span className="rounded bg-card/95 px-2 py-1 text-xs font-semibold text-primary">Демонстрационная квартира</span>
+          {!intro && <span aria-live="polite" className="glass rounded-md px-3 py-1 text-xs font-semibold text-primary">{scene.title}</span>}
         </div>
-        <button onClick={() => setPanel("object")} className="glass inline-flex h-11 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-full px-4 text-sm font-semibold text-primary">
+        <button onClick={() => setPanel("object")} className="glass inline-flex h-11 shrink-0 items-center gap-1.5 whitespace-nowrap rounded-md px-4 text-sm font-semibold text-primary">
           <Info className="h-4 w-4" /> Об объекте
         </button>
       </div>
@@ -111,58 +112,58 @@ export function RoomTourViewer({ bundle, room }: { bundle: TourBundle; room: str
         return (
           <button key={hs.id} onClick={() => nav ? go(hs.target_scene_id!) : setPanel({ info: hs })}
             style={{ left: c.x, top: c.y }}
-            className="group absolute flex min-h-12 min-w-12 -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-full p-1.5 focus-visible:outline-none">
-            <span className={`grid h-9 w-9 place-items-center rounded-full border-2 border-card shadow-lift transition group-hover:scale-110 group-active:scale-95 group-focus-visible:ring-4 group-focus-visible:ring-ring ${nav ? "bg-berry text-berry-foreground" : "bg-card text-primary"}`}>
+            className="group absolute flex min-h-12 min-w-12 -translate-x-1/2 -translate-y-1/2 items-center gap-2 rounded-md p-1.5 focus-visible:outline-none">
+            <span className={`grid h-9 w-9 place-items-center rounded-full border-2 border-card shadow-soft transition group-hover:scale-110 group-active:scale-95 group-focus-visible:ring-4 group-focus-visible:ring-ring ${nav ? "bg-brand text-brand-foreground" : "bg-card text-primary"}`}>
               {nav ? <DoorOpen className="h-4 w-4" /> : <Info className="h-4 w-4" />}
             </span>
-            <span className="glass whitespace-nowrap rounded-full px-3 py-1.5 text-xs font-bold text-primary shadow-soft">{hs.label}</span>
+            <span className="glass whitespace-nowrap rounded-md px-3 py-1.5 text-xs font-bold text-primary shadow-soft">{hs.label}</span>
           </button>
         );
       })}
 
       {/* Intro card */}
       {intro && (
-        <div className="glass absolute inset-x-3 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] rounded-3xl p-5 shadow-lift sm:inset-x-auto sm:left-5 sm:max-w-sm md:bottom-28 md:left-8 md:p-7">
-          <p className="text-xl font-extrabold leading-tight text-primary md:text-3xl">Загляните в свой будущий дом</p>
+        <div className="glass absolute inset-x-3 bottom-[calc(5.5rem+env(safe-area-inset-bottom))] rounded-lg p-5 shadow-soft sm:inset-x-auto sm:left-5 sm:max-w-sm md:bottom-28 md:left-8 md:p-7">
+          <p className="text-xl font-bold leading-tight text-primary md:text-3xl">Загляните в свой будущий дом</p>
           <p className="mt-2 text-sm text-muted-foreground md:text-base">Исследуйте комнаты и найдите квартиру для своей жизни.</p>
           <div className="mt-4 grid gap-2 sm:flex">
-            <button onClick={start} className="key-turn inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-berry px-5 text-sm font-semibold text-berry-foreground shadow-soft hover:brightness-110"><KeyIcon /> Начать прогулку</button>
-            <Link to="/kupit-kvartiru" className="inline-flex h-12 items-center justify-center gap-1 rounded-xl border border-primary/20 bg-card px-5 text-sm font-semibold text-primary">Открыть каталог <ArrowRight className="h-4 w-4" /></Link>
+            <button onClick={start} className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-brand px-5 text-sm font-semibold text-brand-foreground shadow-soft hover:brightness-110"> Начать прогулку</button>
+            <Link to="/kupit-kvartiru" className="border inline-flex h-12 items-center justify-center gap-1 rounded-md border-primary/20 bg-card px-5 text-sm font-semibold text-primary">Открыть каталог <ArrowRight className="h-4 w-4" /></Link>
           </div>
         </div>
       )}
 
       {hint && (
-        <div role="status" className="glass absolute inset-x-3 top-16 mx-auto flex max-w-sm items-start gap-3 rounded-2xl p-3 text-sm text-primary shadow-lift md:top-20">
-          <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-berry" />
+        <div role="status" className="glass absolute inset-x-3 top-16 mx-auto flex max-w-sm items-start gap-3 rounded-lg p-3 text-sm text-primary shadow-soft md:top-20">
+          <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
           <p className="flex-1">Выбирайте точки перехода или комнаты внизу.</p>
-          <button onClick={closeHint} aria-label="Закрыть подсказку" className="-m-2 grid h-11 w-11 place-items-center rounded-full"><X className="h-4 w-4" /></button>
+          <button onClick={closeHint} aria-label="Закрыть подсказку" className="-m-2 grid h-11 w-11 place-items-center rounded-md"><X className="h-4 w-4" /></button>
         </div>
       )}
 
       {/* Bottom controls */}
       <div className="absolute inset-x-0 bottom-0 flex justify-center p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] md:p-5">
-        <nav aria-label="Комнаты" className="glass flex max-w-full items-center gap-1 overflow-x-auto rounded-2xl p-1.5 shadow-lift">
+        <nav aria-label="Комнаты" className="glass flex max-w-full items-center gap-1 overflow-x-auto rounded-lg p-1.5 shadow-soft">
           {switcher.map(s => (
             <button key={s.id} onClick={() => { setIntro(false); go(s.id); }} aria-current={s.id === sceneId ? "true" : undefined}
-              className={`flex h-12 shrink-0 items-center gap-2 rounded-xl px-2.5 text-xs md:px-3 font-semibold transition md:text-sm ${s.id === sceneId ? "bg-primary text-primary-foreground" : "text-primary hover:bg-primary/10"}`}>
+              className={`flex h-12 shrink-0 items-center gap-2 rounded-md px-2.5 text-xs md:px-3 font-semibold transition md:text-sm ${s.id === sceneId ? "bg-primary text-primary-foreground" : "text-primary hover:bg-primary/10"}`}>
               <img src={s.thumbnail_url} alt="" width={40} height={25} loading="lazy" className="hidden h-7 w-11 rounded-md object-cover md:block" />
               {s.title}
             </button>
           ))}
           <span aria-hidden className="mx-1 h-8 w-px shrink-0 bg-border" />
-          <button onClick={() => setPanel("plan")} className="flex h-12 shrink-0 items-center gap-1.5 rounded-xl px-3 text-xs font-semibold text-primary hover:bg-primary/10 md:text-sm"><MapIcon className="h-4 w-4" />План</button>
+          <button onClick={() => setPanel("plan")} className="flex h-12 shrink-0 items-center gap-1.5 rounded-md px-3 text-xs font-semibold text-primary hover:bg-primary/10 md:text-sm"><MapIcon className="h-4 w-4" />План</button>
           {canFs && !isMobile && (
-            <button onClick={toggleFs} className="flex h-12 shrink-0 items-center gap-1.5 rounded-xl px-3 text-sm font-semibold text-primary hover:bg-primary/10">
+            <button onClick={toggleFs} className="flex h-12 shrink-0 items-center gap-1.5 rounded-md px-3 text-sm font-semibold text-primary hover:bg-primary/10">
               {fs ? <Minimize className="h-4 w-4" /> : <Expand className="h-4 w-4" />}{fs ? "Свернуть" : "На весь экран"}
             </button>
           )}
-          <button onClick={() => setPanel("lead")} className="key-turn hidden h-12 shrink-0 items-center gap-1.5 rounded-xl bg-berry px-4 lg:flex text-xs font-semibold text-berry-foreground md:text-sm"><KeyIcon className="h-4 w-4" />Подобрать</button>
+          <button onClick={() => setPanel("lead")} className="hidden h-12 shrink-0 items-center gap-1.5 rounded-md bg-brand px-4 lg:flex text-xs font-semibold text-brand-foreground md:text-sm">Подобрать</button>
         </nav>
       </div>
 
       <Sheet open={panel !== null} onOpenChange={o => !o && setPanel(null)}>
-        <SheetContent side={side} container={fs ? shell.current : undefined} className={side === "bottom" ? "max-h-[88svh] overflow-y-auto rounded-t-3xl pb-[max(1.5rem,env(safe-area-inset-bottom))]" : "w-full overflow-y-auto sm:max-w-md"}>
+        <SheetContent side={side} container={fs ? shell.current : undefined} className={side === "bottom" ? "max-h-[88svh] overflow-y-auto rounded-t-lg pb-[max(1.5rem,env(safe-area-inset-bottom))]" : "w-full overflow-y-auto sm:max-w-md"}>
           {panel === "plan" && <>
             <SheetHeader><SheetTitle>План квартиры</SheetTitle><SheetDescription>Схема демонстрационной квартиры, без размеров. Нажмите на комнату, чтобы перейти.</SheetDescription></SheetHeader>
             <TourPlan active={sceneId} onPick={id => { setIntro(false); go(id); setPanel(null); }} />
@@ -171,8 +172,8 @@ export function RoomTourViewer({ bundle, room }: { bundle: TourBundle; room: str
             <SheetHeader><SheetTitle>{tour.title}</SheetTitle><SheetDescription>Пример интерактивного просмотра</SheetDescription></SheetHeader>
             <p className="mt-4 text-sm text-muted-foreground">Это не реальный объект: у него нет цены, адреса и характеристик. Так будет выглядеть тур по квартирам из каталога, когда для них загрузят съёмку.</p>
             <div className="mt-5 grid gap-2">
-              <button onClick={() => setPanel("lead")} className="key-turn inline-flex h-12 items-center justify-center gap-2 rounded-xl bg-berry font-semibold text-berry-foreground"><KeyIcon /> Подобрать похожую квартиру</button>
-              <Link to="/kupit-kvartiru" className="inline-flex h-12 items-center justify-center gap-2 rounded-xl border font-semibold text-primary"><LayoutGrid className="h-4 w-4" /> Перейти в каталог</Link>
+              <button onClick={() => setPanel("lead")} className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-brand font-semibold text-brand-foreground"> Подобрать похожую квартиру</button>
+              <Link to="/kupit-kvartiru" className="inline-flex h-12 items-center justify-center gap-2 rounded-md border font-semibold text-primary"><LayoutGrid className="h-4 w-4" /> Перейти в каталог</Link>
             </div>
           </>}
           {panel && typeof panel === "object" && "info" in panel && <>

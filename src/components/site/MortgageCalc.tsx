@@ -4,7 +4,7 @@ import { metrikaGoal } from "@/lib/metrika";
 
 const fmt = (n: number) => Math.round(n).toLocaleString("ru-RU") + " ₽";
 const num = (s: string) => Number(s.replace(/\s/g, "").replace(",", ".")) || 0;
-const field = "h-12 w-full rounded-xl border border-input bg-background px-4 text-sm text-primary outline-none focus:ring-2 focus:ring-ring";
+const field = "h-12 w-full rounded-md border-input bg-background px-4 text-sm text-primary outline-none focus:ring-2 focus:ring-ring";
 
 export function MortgageCalc() {
   const [v, setV] = useState({ price: "", down: "", years: "", rate: "" });
@@ -25,17 +25,17 @@ export function MortgageCalc() {
     </label>
   );
   return (
-    <div className="grid gap-6 rounded-2xl bg-card p-5 shadow-soft md:grid-cols-2 md:p-8">
+    <div className="grid gap-6 rounded-lg bg-card p-5 border md:grid-cols-2 md:p-8">
       <div className="grid grid-cols-2 gap-3">
         <div className="col-span-2">{inp("price", "Стоимость квартиры, ₽", "например, 6 000 000")}</div>
         <div className="col-span-2">{inp("down", "Первоначальный взнос, ₽", "например, 1 500 000")}</div>
         {inp("years", "Срок, лет", "20")}
         {inp("rate", "Ставка, % годовых", "введите ставку")}
       </div>
-      <div className="flex flex-col justify-between rounded-xl bg-primary p-6 text-primary-foreground">
+      <div className="flex flex-col justify-between rounded-md bg-primary p-6 text-primary-foreground">
         <div>
           <p className="text-sm opacity-75">Ежемесячный платёж</p>
-          <p className="mt-1 text-3xl font-extrabold md:text-4xl">{ready ? fmt(r.payment) : "—"}</p>
+          <p className="mt-1 text-3xl font-bold md:text-2xl">{ready ? fmt(r.payment) : "—"}</p>
           <dl className="mt-5 grid grid-cols-2 gap-3 text-sm">
             <div><dt className="opacity-70">Сумма кредита</dt><dd className="font-semibold">{ready ? fmt(r.loan) : "—"}</dd></div>
             <div><dt className="opacity-70">Переплата</dt><dd className="font-semibold">{ready ? fmt(r.overpay) : "—"}</dd></div>
