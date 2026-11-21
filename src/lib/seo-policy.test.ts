@@ -43,7 +43,7 @@ describe('sitemap public pagination', () => {
     await expect(allPages(async offset => { if (offset >= 2) throw new Error('later page'); return [1, 2]; }, 2)).rejects.toThrow('later page');
   });
   it('does not invent lastmod and rejects query-string URLs', () => {
-    expect(sitemapXML('https://kluchberi.ru', [{ path: '/' }])).not.toContain('lastmod');
-    expect(() => sitemapXML('https://kluchberi.ru', [{ path: '/?rooms=2' }])).toThrow();
+    expect(sitemapXML('https://example.ru', [{ path: '/' }])).not.toContain('lastmod');
+    expect(() => sitemapXML('https://example.ru', [{ path: '/?rooms=2' }])).toThrow();
   });
 });

@@ -1,3 +1,4 @@
+import { SITE } from "@/config/site";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, DoorOpen, Expand, Info, LayoutGrid, Map as MapIcon, Minimize, Sparkles, X } from "lucide-react";
@@ -67,7 +68,7 @@ export function RoomTourViewer({ bundle, room }: { bundle: TourBundle; room: str
   const side = isMobile ? "bottom" : "right";
 
   return (
-    <section ref={shell} aria-label="Демонстрационный тур по квартире" className="tour-shell relative isolate w-full overflow-hidden bg-primary">
+    <section ref={shell} aria-label={`Демонстрационный тур по квартире — ${SITE.brandName}`} className="tour-shell relative isolate w-full overflow-hidden bg-primary">
       {/* Scenes: all mounted lazily once visited, crossfade between them */}
       {scenes.map(s => (s.id === sceneId || loaded[s.id]) && (
         <img key={s.id} src={s.image_url} alt={s.id === sceneId ? s.alt : ""} aria-hidden={s.id !== sceneId}

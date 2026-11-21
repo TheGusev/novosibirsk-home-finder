@@ -2,7 +2,7 @@ import { queryOptions } from '@tanstack/react-query';
 import { getSeoSettings } from './public-data.functions';
 import type { SeoSettings } from './seo-settings';
 import { SITE } from '@/config/site';
-const BRAND_READY = !SITE.name.startsWith('[');
+const BRAND_READY = !SITE.brandName.startsWith('[');
 const withBrand = (t: string) => (BRAND_READY ? `${t} — ${SITE.name}` : t);
 export const SITE_ORIGIN = 'https://novosibirsk-home-finder.lovable.app';
 export const seoSettingsQuery = queryOptions({ queryKey: ['seo-settings'], queryFn: () => getSeoSettings(), staleTime: 60_000 });
@@ -16,9 +16,9 @@ export function faqSchema(faq: readonly (readonly [string, string])[]) {
 /** Returns null until the brand name and domain are approved — no fictitious organization data in SEO. */
 export function organizationSchema(settings: SeoSettings) {
   const o = settings.organization;
-  if (!BRAND_READY || !SITE.domain) return null;
-  const url = `https://${SITE.domain}`;
-  return { '@context': 'https://schema.org', '@type': ['Organization', 'RealEstateAgent'], '@id': `${url}/#organization`, name: SITE.name, url,
+  if (!BRAND_READY || !SITE.siteUrl || !SITE.legalName) return null;
+  const url = SITE.siteUrl;
+  return { '@context': 'https://schema.org', '@type': ['Organization', 'RealEstateAgent'], '@id': `${url}/#organization`, name: SITE.brandName, url,
     address: { '@type': 'PostalAddress', addressLocality: 'Новосибирск', addressRegion: 'Новосибирская область', addressCountry: 'RU', ...(o.address ? { streetAddress: o.address } : {}) },
     ...(o.phone ? { telephone: o.phone } : {}), ...(o.openingHours.length ? { openingHours: o.openingHours } : {}),
     sameAs: Object.values(o.sameAs).filter(url => /^https:\/\//.test(url)),

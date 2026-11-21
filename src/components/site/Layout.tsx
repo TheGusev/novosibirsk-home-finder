@@ -19,9 +19,9 @@ const trackPhone = () => { window.__lovableEvents?.track?.("project.click_phone"
 
 function Logo() {
   return (
-    <Link to="/" className="flex min-w-0 items-baseline gap-2">
-      <span className="truncate text-base font-bold text-primary">{SITE.name}</span>
-      <span className="hidden truncate text-xs text-muted-foreground xl:inline">{SITE.tagline}</span>
+    <Link to="/" aria-label={`${SITE.brandName} — на главную`} className="flex min-w-0 flex-col leading-tight">
+      <span className="whitespace-nowrap text-base font-bold tracking-tight text-foreground">{SITE.brandName}</span>
+      <span className="hidden whitespace-nowrap text-[11px] text-muted-foreground sm:inline">{SITE.brandDescriptor}</span>
     </Link>
   );
 }
