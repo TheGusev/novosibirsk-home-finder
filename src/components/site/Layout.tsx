@@ -1,6 +1,6 @@
 import { WHATSAPP_HREF, TELEGRAM_HREF } from "@/lib/contact";
 import { Link } from "@tanstack/react-router";
-import { createElement, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import { Menu, X, Phone, MessageCircle, Send } from "lucide-react";
 import { KeyIcon } from "./KeyIcon";
 import { BerryButton, PHONE, PHONE_HREF } from "./ui";
@@ -122,14 +122,12 @@ function MobileBar() {
 }
 
 export function SiteLayout({ children }: { children: ReactNode }) {
-  // Keep the shared wrapper independent of the preview's lazy jsxDEV binding.
-  // A stale hot-update runtime must not prevent every page from mounting.
-  return createElement(
-    "div",
-    { className: "flex min-h-screen flex-col" },
-    createElement(Header),
-    createElement("main", { className: "flex-1" }, children),
-    createElement(Footer),
-    createElement(MobileBar),
+  return (
+    <div className="flex min-h-screen flex-col">
+      <Header />
+      <main className="flex-1">{children}</main>
+      <Footer />
+      <MobileBar />
+    </div>
   );
 }
