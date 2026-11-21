@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { leadSchema, normalizePhone, maskPhone, canSubmitRecent, RATE_LIMIT } from "./lead-schema";
+import { leadSchema, normalizePhone, maskPhone } from "./lead-schema";
 const valid = { type: "viewing", phone: "8 (913) 123-45-67", consent: true, source_page: "/kvartira/demo" };
 describe("lead rules", () => {
   it("accepts Russian telephone and normalizes 8 to +7", () => expect(leadSchema.parse(valid).phone).toBe("+79131234567"));
@@ -13,9 +13,6 @@ describe("lead rules", () => {
     expect(leadSchema.safeParse({ ...valid, property_id: "invalid" }).success).toBe(false);
   });
   it("formats Russian numbers without losing digits", () => expect(normalizePhone(maskPhone("89131234567"))).toBe("+79131234567"));
-  it("allows three submissions per fifteen minutes, not four", () => {
-    expect(RATE_LIMIT.minutes).toBe(15); expect(canSubmitRecent(2)).toBe(true); expect(canSubmitRecent(3)).toBe(false);
-  });
   it("accepts exactly the requested categories", () => {
     for (const type of ["viewing", "question", "valuation", "selection", "mortgage", "callback"]) expect(leadSchema.safeParse({ ...valid, type }).success).toBe(true);
     expect(leadSchema.safeParse({ ...valid, type: "other" }).success).toBe(false);

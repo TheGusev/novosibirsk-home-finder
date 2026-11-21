@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { monthlyPayment } from "@/lib/mortgage";
 import { metrikaGoal } from "@/lib/metrika";
 
@@ -8,6 +8,7 @@ const field = "h-12 w-full rounded-xl border border-input bg-background px-4 tex
 
 export function MortgageCalc() {
   const [v, setV] = useState({ price: "", down: "", years: "", rate: "" });
+  const tracked = useRef("");
   const r = monthlyPayment(num(v.price), num(v.down), num(v.years), num(v.rate));
   const ready = num(v.price) > 0 && num(v.years) > 0 && v.rate !== "";
   const inp = (k: keyof typeof v, label: string, ph: string) => (
@@ -15,6 +16,9 @@ export function MortgageCalc() {
       <span className="mb-1.5 block text-xs font-semibold text-muted-foreground">{label}</span>
       <input inputMode="decimal" placeholder={ph} className={field} value={v[k]} onChange={(e) => setV({ ...v, [k]: e.target.value })} onBlur={() => {
         if (!ready || num(v.down) < 0 || num(v.down) >= num(v.price) || num(v.rate) < 0) return;
+        const signature = JSON.stringify(v);
+        if (tracked.current === signature) return;
+        tracked.current = signature;
         window.__lovableEvents?.track?.("project.calc_mortgage", {});
         metrikaGoal("calc_mortgage");
       }} />

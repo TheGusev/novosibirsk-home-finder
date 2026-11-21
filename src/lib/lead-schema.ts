@@ -32,5 +32,3 @@ export const leadSchema = z.object({
   referrer: z.string().max(500).default(""),
   details: z.record(z.string().max(80), z.string().max(1000)).refine(v => Object.keys(v).length <= 20).default({}),
 });
-export const RATE_LIMIT = { max: 3, minutes: 15 } as const;
-export function canSubmitRecent(count: number) { return count < RATE_LIMIT.max; }

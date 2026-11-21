@@ -5,7 +5,7 @@ export function captureAttribution() {
   const attribution: Record<string, string> = {};
   for (const key of UTM) attribution[key] = (query.get(key) ?? "").slice(0, 200);
   try {
-    attribution["referrer"] = document.referrer ? new URL(document.referrer).origin : "";
+    attribution["referrer"] = document.referrer ? new URL(document.referrer).href.slice(0, 500) : "";
     if (UTM.some(k => query.has(k)) || !sessionStorage.getItem(KEY)) sessionStorage.setItem(KEY, JSON.stringify(attribution));
   } catch { /* Forms still work when storage is unavailable. */ }
 }

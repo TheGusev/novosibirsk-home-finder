@@ -5,7 +5,7 @@ import { Section } from "@/components/site/ui";
 import { LeadForm } from "@/components/site/LeadForm";
 import { firstImage, roomsLabel, rub, SOURCE_LABEL } from "@/lib/catalog";
 import { propertyQuery } from "@/lib/properties-query";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { metrikaGoal } from "@/lib/metrika";
 
 export const Route = createFileRoute("/kvartira/$id")({
@@ -28,8 +28,10 @@ export const Route = createFileRoute("/kvartira/$id")({
 function Apartment() {
   const { id } = Route.useParams();
   const { data: l } = useSuspenseQuery(propertyQuery(id));
+  const viewed = useRef<string | null>(null);
   useEffect(() => {
-    if (!l) return;
+    if (!l || viewed.current === l.id) return;
+    viewed.current = l.id;
     window.__lovableEvents?.track?.("project.view_property", { housing_type: l.type });
     metrikaGoal("view_property", { housing_type: l.type });
   }, [l?.id]);

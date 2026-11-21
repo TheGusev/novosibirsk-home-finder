@@ -29,6 +29,13 @@
       "when": 1795245471194,
       "tag": "0003_unify_leads_and_staff_access",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1795283811457,
+      "tag": "0004_validate_lead_workflow_states",
+      "breakpoints": true
     }
   ]
 }
