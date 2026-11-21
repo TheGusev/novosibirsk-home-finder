@@ -59,6 +59,7 @@ function Apartment() {
       <Section className="pt-6 md:pt-10">
         <nav aria-label="Хлебные крошки" className="text-sm text-muted-foreground"><Link to="/">Главная</Link> / <Link to="/kupit-kvartiru">Купить квартиру</Link> / <span>{l.title}</span></nav>
         <img src={firstImage(l)} alt={l.title} width={1200} height={900} fetchPriority="high" className="mt-4 aspect-[16/9] w-full rounded-2xl object-cover shadow-lift" />
+        <p className="mt-2 text-xs text-muted-foreground">Тур для этого объекта пока не загружен — смотрите фото и запишитесь на просмотр.</p>
         <div className="mt-8 grid gap-10 md:grid-cols-[1fr_380px]">
           <div>
             <span className="rounded-full bg-berry-soft px-3 py-1 text-xs font-semibold text-berry">{l.type === "new" ? "Новостройка" : "Вторичка"}</span>

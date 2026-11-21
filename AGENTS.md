@@ -25,3 +25,4 @@
 - Canonical/OG URLs use the deployed public origin until a verified domain move; organization identity may retain the business URL separately.
 
 - Confirmed contact values live in the shared contact module; phone-based messenger links must not invent usernames or MAX profile URLs.
+- Room tours go through `getTour()` in `src/lib/tour/adapter.ts` with typed Tour/TourScene/TourHotspot; the demo tour is never attached to a real property, so swapping in DB tours needs no component changes.

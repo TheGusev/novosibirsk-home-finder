@@ -4,6 +4,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Home, Building2, KeyRound, Repeat, DoorOpen, FileSearch, ArrowRight, User, ChevronDown } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
 import { HomeHero } from "@/components/site/HomeHero";
+import { RoomTourViewer } from "@/components/tour/RoomTourViewer";
+import { getTour } from "@/lib/tour/adapter";
 import { Section } from "@/components/site/ui";
 import { KeyIcon } from "@/components/site/KeyIcon";
 import { PropertyCard } from "@/components/site/PropertyCard";
@@ -15,6 +17,7 @@ import { FinalForm } from "@/components/site/FinalForm";
 
 export const Route = createFileRoute("/")({
   staticData: { sitemap: true },
+  validateSearch: (s: Record<string, unknown>): { room?: string } => (typeof s["room"] === "string" ? { room: s["room"] } : {}),
   loader: ({ context }) => context.queryClient.ensureQueryData(propertiesQuery),
   head: () => seoHead('Купить квартиру в Новосибирске', 'Новостройки и вторичное жильё в Новосибирске и области. Понятная цена, проверка документов и сопровождение сделки.', '/', { schemas: [faqSchema(FAQ)] }),
   errorComponent: () => <SiteLayout><Section><h1 className="text-2xl font-bold text-primary">Не удалось загрузить страницу</h1><p className="mt-3 text-muted-foreground">Обновите страницу.</p></Section></SiteLayout>,
@@ -71,8 +74,11 @@ function H2({ eyebrow, children }: { eyebrow: string; children: string }) {
 }
 
 function Index() {
+  const { room } = Route.useSearch();
+  const tour = getTour();
   return (
     <SiteLayout>
+      {tour && <RoomTourViewer bundle={tour} room={room} />}
       <HomeHero />
 
       <Section>

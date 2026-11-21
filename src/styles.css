@@ -95,3 +95,16 @@
 .map-pin.is-active { background: var(--berry); color: var(--berry-foreground); transform: scale(1.12); }
 .map-pin.is-active span { color: var(--berry-foreground); }
 .leaflet-container { font-family: var(--font-sans); background: var(--muted); }
+
+/* Room tour */
+.tour-shell { height: calc(100vh - 72px - 64px); height: calc(100svh - 72px - 64px - env(safe-area-inset-bottom)); min-height: 460px; }
+@media (min-width: 1024px) { .tour-shell { height: calc(100vh - 72px); height: calc(100svh - 72px); min-height: 560px; } }
+.tour-shell:fullscreen { height: 100vh; height: 100dvh; }
+@utility glass {
+  background: color-mix(in oklab, var(--card) 94%, transparent);
+  @supports (backdrop-filter: blur(1px)) {
+    background: color-mix(in oklab, var(--card) 80%, transparent);
+    backdrop-filter: blur(14px) saturate(1.2);
+  }
+}
+@media (prefers-reduced-motion: reduce) { .tour-shell * { transition: none !important; animation: none !important; } }
