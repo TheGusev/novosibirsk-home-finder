@@ -1,3 +1,4 @@
+import { seoHead, breadcrumbs, pageUrl } from "@/lib/seo";
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { SiteLayout } from "@/components/site/Layout";
@@ -9,16 +10,23 @@ import { useEffect, useRef } from "react";
 import { metrikaGoal } from "@/lib/metrika";
 
 export const Route = createFileRoute("/kvartira/$id")({
+  staticData: { sitemap: true },
   loader: async ({ params, context }) => {
     const p = await context.queryClient.ensureQueryData(propertyQuery(params.id));
     if (!p) throw notFound();
     return p;
   },
-  head: ({ loaderData }) => {
-    const t = loaderData ? `${loaderData.title}, ${Number(loaderData.area_total)} м² — Ключбери` : "Квартира — Ключбери";
-    const d = loaderData ? `${roomsLabel(loaderData.rooms)} квартира, ${loaderData.district} район, Новосибирск. ${rub(loaderData.price)}.` : "Объект недвижимости в Новосибирске.";
-    return { meta: [{ title: t }, { name: "description", content: d }, { property: "og:title", content: t }, { property: "og:description", content: d }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] };
+  head: ({ loaderData, params }) => {
+    const path = `/kvartira/${loaderData?.slug ?? params.id}`;
+    if (!loaderData) return seoHead('Объект недоступен', 'Объект недвижимости недоступен.', path, { noindex: true });
+    const p = loaderData;
+    const title = `${p.title}, ${p.area_total} м²`;
+    const description = `${roomsLabel(p.rooms)} квартира, ${p.district} район, Новосибирск. ${rub(p.price)}. ${p.address ?? ''}`;
+    const offer = { '@context': 'https://schema.org', '@type': 'Offer', url: pageUrl(path), price: p.price, priceCurrency: 'RUB', availability: p.status === 'active' ? 'https://schema.org/InStock' : 'https://schema.org/Reserved',
+      itemOffered: { '@type': 'Apartment', name: p.title, description: p.description ?? description, floorSize: { '@type': 'QuantitativeValue', value: p.area_total, unitCode: 'MTK' }, numberOfRooms: p.rooms, address: { '@type': 'PostalAddress', addressLocality: 'Новосибирск', addressCountry: 'RU', ...(p.address ? { streetAddress: p.address } : {}) } } };
+    return seoHead(title, description, path, { noindex: p.status !== 'active', image: firstImage(p), schemas: [offer, breadcrumbs([{ name: 'Главная', path: '/' }, { name: 'Купить квартиру', path: '/kupit-kvartiru' }, { name: p.title, path }])] });
   },
+  errorComponent: () => <SiteLayout><Section><h1 className="text-2xl font-bold text-primary">Не удалось загрузить квартиру</h1><p className="mt-3 text-muted-foreground">Обновите страницу.</p></Section></SiteLayout>,
   notFoundComponent: () => (
     <SiteLayout><Section><h1 className="text-3xl font-bold text-primary">Объект не найден</h1><Link to="/kupit-kvartiru" className="mt-4 inline-block text-berry">Все квартиры →</Link></Section></SiteLayout>
   ),
@@ -49,8 +57,8 @@ function Apartment() {
   return (
     <SiteLayout>
       <Section className="pt-6 md:pt-10">
-        <Link to="/kupit-kvartiru" className="text-sm text-muted-foreground">← Все квартиры</Link>
-        <img src={firstImage(l)} alt={l.title} width={1200} height={900} className="mt-4 aspect-[16/9] w-full rounded-2xl object-cover shadow-lift" />
+        <nav aria-label="Хлебные крошки" className="text-sm text-muted-foreground"><Link to="/">Главная</Link> / <Link to="/kupit-kvartiru">Купить квартиру</Link> / <span>{l.title}</span></nav>
+        <img src={firstImage(l)} alt={l.title} width={1200} height={900} fetchPriority="high" className="mt-4 aspect-[16/9] w-full rounded-2xl object-cover shadow-lift" />
         <div className="mt-8 grid gap-10 md:grid-cols-[1fr_380px]">
           <div>
             <span className="rounded-full bg-berry-soft px-3 py-1 text-xs font-semibold text-berry">{l.type === "new" ? "Новостройка" : "Вторичка"}</span>

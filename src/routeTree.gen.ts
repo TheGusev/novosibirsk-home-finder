@@ -13,11 +13,13 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ArendaRouteImport } from './routes/arenda'
 import { Route as IpotekaRouteImport } from './routes/ipoteka'
 import { Route as KontaktyRouteImport } from './routes/kontakty'
-import { Route as KupitKvartiruRouteImport } from './routes/kupit-kvartiru'
 import { Route as PolitikaRouteImport } from './routes/politika'
 import { Route as ProdatIKupitRouteImport } from './routes/prodat-i-kupit'
 import { Route as ProdatKvartiruRouteImport } from './routes/prodat-kvartiru'
 import { Route as ProverkaObektaRouteImport } from './routes/proverka-obekta'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as KupitKvartiruIndexRouteImport } from './routes/kupit-kvartiru.index'
+import { Route as KupitKvartiruCollectionRouteImport } from './routes/kupit-kvartiru.$collection'
 import { Route as KvartiraIdRouteImport } from './routes/kvartira.$id'
 import { Route as NovostroykiIndexRouteImport } from './routes/novostroyki.index'
 import { Route as NovostroykiSlugRouteImport } from './routes/novostroyki.$slug'
@@ -42,11 +44,6 @@ const KontaktyRoute = KontaktyRouteImport.update({
   path: '/kontakty',
   getParentRoute: () => rootRouteImport,
 } as any)
-const KupitKvartiruRoute = KupitKvartiruRouteImport.update({
-  id: '/kupit-kvartiru',
-  path: '/kupit-kvartiru',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const PolitikaRoute = PolitikaRouteImport.update({
   id: '/politika',
   path: '/politika',
@@ -65,6 +62,21 @@ const ProdatKvartiruRoute = ProdatKvartiruRouteImport.update({
 const ProverkaObektaRoute = ProverkaObektaRouteImport.update({
   id: '/proverka-obekta',
   path: '/proverka-obekta',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KupitKvartiruIndexRoute = KupitKvartiruIndexRouteImport.update({
+  id: '/kupit-kvartiru/',
+  path: '/kupit-kvartiru/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KupitKvartiruCollectionRoute = KupitKvartiruCollectionRouteImport.update({
+  id: '/kupit-kvartiru/$collection',
+  path: '/kupit-kvartiru/$collection',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KvartiraIdRoute = KvartiraIdRouteImport.update({
@@ -88,13 +100,15 @@ export interface FileRoutesByFullPath {
   '/arenda': typeof ArendaRoute
   '/ipoteka': typeof IpotekaRoute
   '/kontakty': typeof KontaktyRoute
-  '/kupit-kvartiru': typeof KupitKvartiruRoute
   '/politika': typeof PolitikaRoute
   '/prodat-i-kupit': typeof ProdatIKupitRoute
   '/prodat-kvartiru': typeof ProdatKvartiruRoute
   '/proverka-obekta': typeof ProverkaObektaRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/kupit-kvartiru/$collection': typeof KupitKvartiruCollectionRoute
   '/kvartira/$id': typeof KvartiraIdRoute
   '/novostroyki/$slug': typeof NovostroykiSlugRoute
+  '/kupit-kvartiru/': typeof KupitKvartiruIndexRoute
   '/novostroyki/': typeof NovostroykiIndexRoute
 }
 export interface FileRoutesByTo {
@@ -102,13 +116,15 @@ export interface FileRoutesByTo {
   '/arenda': typeof ArendaRoute
   '/ipoteka': typeof IpotekaRoute
   '/kontakty': typeof KontaktyRoute
-  '/kupit-kvartiru': typeof KupitKvartiruRoute
   '/politika': typeof PolitikaRoute
   '/prodat-i-kupit': typeof ProdatIKupitRoute
   '/prodat-kvartiru': typeof ProdatKvartiruRoute
   '/proverka-obekta': typeof ProverkaObektaRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/kupit-kvartiru/$collection': typeof KupitKvartiruCollectionRoute
   '/kvartira/$id': typeof KvartiraIdRoute
   '/novostroyki/$slug': typeof NovostroykiSlugRoute
+  '/kupit-kvartiru': typeof KupitKvartiruIndexRoute
   '/novostroyki': typeof NovostroykiIndexRoute
 }
 export interface FileRoutesById {
@@ -117,13 +133,15 @@ export interface FileRoutesById {
   '/arenda': typeof ArendaRoute
   '/ipoteka': typeof IpotekaRoute
   '/kontakty': typeof KontaktyRoute
-  '/kupit-kvartiru': typeof KupitKvartiruRoute
   '/politika': typeof PolitikaRoute
   '/prodat-i-kupit': typeof ProdatIKupitRoute
   '/prodat-kvartiru': typeof ProdatKvartiruRoute
   '/proverka-obekta': typeof ProverkaObektaRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/kupit-kvartiru/$collection': typeof KupitKvartiruCollectionRoute
   '/kvartira/$id': typeof KvartiraIdRoute
   '/novostroyki/$slug': typeof NovostroykiSlugRoute
+  '/kupit-kvartiru/': typeof KupitKvartiruIndexRoute
   '/novostroyki/': typeof NovostroykiIndexRoute
 }
 export interface FileRouteTypes {
@@ -133,13 +151,15 @@ export interface FileRouteTypes {
     | '/arenda'
     | '/ipoteka'
     | '/kontakty'
-    | '/kupit-kvartiru'
     | '/politika'
     | '/prodat-i-kupit'
     | '/prodat-kvartiru'
     | '/proverka-obekta'
+    | '/sitemap.xml'
+    | '/kupit-kvartiru/$collection'
     | '/kvartira/$id'
     | '/novostroyki/$slug'
+    | '/kupit-kvartiru/'
     | '/novostroyki/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -147,13 +167,15 @@ export interface FileRouteTypes {
     | '/arenda'
     | '/ipoteka'
     | '/kontakty'
-    | '/kupit-kvartiru'
     | '/politika'
     | '/prodat-i-kupit'
     | '/prodat-kvartiru'
     | '/proverka-obekta'
+    | '/sitemap.xml'
+    | '/kupit-kvartiru/$collection'
     | '/kvartira/$id'
     | '/novostroyki/$slug'
+    | '/kupit-kvartiru'
     | '/novostroyki'
   id:
     | '__root__'
@@ -161,13 +183,15 @@ export interface FileRouteTypes {
     | '/arenda'
     | '/ipoteka'
     | '/kontakty'
-    | '/kupit-kvartiru'
     | '/politika'
     | '/prodat-i-kupit'
     | '/prodat-kvartiru'
     | '/proverka-obekta'
+    | '/sitemap.xml'
+    | '/kupit-kvartiru/$collection'
     | '/kvartira/$id'
     | '/novostroyki/$slug'
+    | '/kupit-kvartiru/'
     | '/novostroyki/'
   fileRoutesById: FileRoutesById
 }
@@ -176,13 +200,15 @@ export interface RootRouteChildren {
   ArendaRoute: typeof ArendaRoute
   IpotekaRoute: typeof IpotekaRoute
   KontaktyRoute: typeof KontaktyRoute
-  KupitKvartiruRoute: typeof KupitKvartiruRoute
   PolitikaRoute: typeof PolitikaRoute
   ProdatIKupitRoute: typeof ProdatIKupitRoute
   ProdatKvartiruRoute: typeof ProdatKvartiruRoute
   ProverkaObektaRoute: typeof ProverkaObektaRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  KupitKvartiruCollectionRoute: typeof KupitKvartiruCollectionRoute
   KvartiraIdRoute: typeof KvartiraIdRoute
   NovostroykiSlugRoute: typeof NovostroykiSlugRoute
+  KupitKvartiruIndexRoute: typeof KupitKvartiruIndexRoute
   NovostroykiIndexRoute: typeof NovostroykiIndexRoute
 }
 
@@ -216,13 +242,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KontaktyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/kupit-kvartiru': {
-      id: '/kupit-kvartiru'
-      path: '/kupit-kvartiru'
-      fullPath: '/kupit-kvartiru'
-      preLoaderRoute: typeof KupitKvartiruRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/politika': {
       id: '/politika'
       path: '/politika'
@@ -249,6 +268,27 @@ declare module '@tanstack/react-router' {
       path: '/proverka-obekta'
       fullPath: '/proverka-obekta'
       preLoaderRoute: typeof ProverkaObektaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kupit-kvartiru/': {
+      id: '/kupit-kvartiru/'
+      path: '/kupit-kvartiru'
+      fullPath: '/kupit-kvartiru/'
+      preLoaderRoute: typeof KupitKvartiruIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kupit-kvartiru/$collection': {
+      id: '/kupit-kvartiru/$collection'
+      path: '/kupit-kvartiru/$collection'
+      fullPath: '/kupit-kvartiru/$collection'
+      preLoaderRoute: typeof KupitKvartiruCollectionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/kvartira/$id': {
@@ -280,13 +320,15 @@ const rootRouteChildren: RootRouteChildren = {
   ArendaRoute: ArendaRoute,
   IpotekaRoute: IpotekaRoute,
   KontaktyRoute: KontaktyRoute,
-  KupitKvartiruRoute: KupitKvartiruRoute,
   PolitikaRoute: PolitikaRoute,
   ProdatIKupitRoute: ProdatIKupitRoute,
   ProdatKvartiruRoute: ProdatKvartiruRoute,
   ProverkaObektaRoute: ProverkaObektaRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  KupitKvartiruCollectionRoute: KupitKvartiruCollectionRoute,
   KvartiraIdRoute: KvartiraIdRoute,
   NovostroykiSlugRoute: NovostroykiSlugRoute,
+  KupitKvartiruIndexRoute: KupitKvartiruIndexRoute,
   NovostroykiIndexRoute: NovostroykiIndexRoute,
 }
 export const routeTree = rootRouteImport

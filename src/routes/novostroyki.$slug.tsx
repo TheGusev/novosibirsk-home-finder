@@ -1,3 +1,4 @@
+import { seoHead, breadcrumbs } from "@/lib/seo";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { SiteLayout } from "@/components/site/Layout";
@@ -7,15 +8,17 @@ import { roomsLabel, rub } from "@/lib/catalog";
 import { complexImage, complexQuery, completionLabel } from "@/lib/complexes";
 
 export const Route = createFileRoute("/novostroyki/$slug")({
+  staticData: { sitemap: true },
   loader: async ({ params, context }) => {
     const r = await context.queryClient.ensureQueryData(complexQuery(params.slug));
     if (!r) throw notFound();
     return r;
   },
-  head: ({ loaderData }) => {
-    const t = loaderData ? `${loaderData.complex.name}, ${loaderData.complex.district} район — Ключбери` : "Жилой комплекс — Ключбери";
-    const d = loaderData ? `${loaderData.complex.name}: планировки, срок сдачи ${completionLabel(loaderData.complex)}, ${loaderData.complex.district} район Новосибирска.` : "Жилой комплекс в Новосибирске.";
-    return { meta: [{ title: t }, { name: "description", content: d }, { property: "og:title", content: t }, { property: "og:description", content: d }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary_large_image" }] };
+  head: ({ loaderData, params }) => {
+    const path = `/novostroyki/${loaderData?.complex.slug ?? params.slug}`;
+    if (!loaderData) return seoHead('Жилой комплекс недоступен', 'Жилой комплекс недоступен.', path, { noindex: true });
+    const c = loaderData.complex;
+    return seoHead(`${c.name}, ${c.district} район`, `${c.name}: планировки, срок сдачи ${completionLabel(c)}, ${c.district} район Новосибирска.`, path, { image: complexImage(c), schemas: [breadcrumbs([{ name: 'Главная', path: '/' }, { name: 'Новостройки', path: '/novostroyki' }, { name: c.name, path }])] });
   },
   errorComponent: () => <SiteLayout><Section><p className="text-primary">Не удалось загрузить ЖК. Обновите страницу.</p></Section></SiteLayout>,
   notFoundComponent: () => (
@@ -44,7 +47,7 @@ function ComplexPage() {
           <Link to="/">Главная</Link> / <Link to="/novostroyki">Новостройки</Link> / <span className="text-primary">{c.name}</span>
         </nav>
         <div className="relative mt-4">
-          <img src={complexImage(c)} alt={c.name} width={1200} height={900} className="aspect-[16/8] w-full rounded-2xl object-cover shadow-lift" />
+          <img src={complexImage(c)} alt={c.name} width={1200} height={900} fetchPriority="high" className="aspect-[16/8] w-full rounded-2xl object-cover shadow-lift" />
           {c.name.startsWith("Демо") && <span className="absolute bottom-3 right-3 rounded-full bg-card/90 px-3 py-1 text-xs font-semibold text-primary">Демо</span>}
         </div>
         <div className="mt-8 grid gap-10 md:grid-cols-[1fr_380px]">
@@ -62,7 +65,7 @@ function ComplexPage() {
                 {layouts.map((l) => (
                   <li key={l.id} className="flex gap-4 rounded-2xl bg-card p-4 shadow-soft">
                     <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-muted text-xs text-muted-foreground">
-                      {l.image ? <img src={l.image} alt={`Планировка ${roomsLabel(l.rooms)}`} loading="lazy" className="h-full w-full object-contain" /> : "План [заполнить]"}
+                      {l.image ? <img src={l.image} alt={`Планировка ${roomsLabel(l.rooms)}`} loading="lazy" width={600} height={600} className="h-full w-full object-contain" /> : "План [заполнить]"}
                     </div>
                     <div>
                       <p className="font-bold text-primary">{roomsLabel(l.rooms)} · {Number(l.area)} м²</p>

@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { Search } from "lucide-react";
-import hero from "@/assets/hero.jpg";
+import hero from "@/assets/hero.webp";
 import { KeyIcon } from "./KeyIcon";
 import { cleanFilters, DISTRICTS, METRO } from "@/lib/catalog";
 import { metrikaGoal } from "@/lib/metrika";
@@ -37,7 +37,7 @@ export function HomeHero() {
           </div>
         </div>
         <div className="relative">
-          <img src={hero} alt="Светлая квартира с видом на Новосибирск" width={1600} height={1104} className="aspect-[4/3] w-full rounded-2xl object-cover shadow-lift lg:aspect-[4/5]" />
+          <img src={hero} alt="Светлая квартира с видом на Новосибирск" width={1600} height={1104} fetchPriority="high" className="aspect-[4/3] w-full rounded-2xl object-cover shadow-lift lg:aspect-[4/5]" />
           <div className="absolute -bottom-4 left-4 flex items-center gap-2 rounded-xl bg-card px-4 py-3 text-sm font-semibold text-primary shadow-lift">
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-berry"><KeyIcon className="h-5 w-5" /></span>
             Ключ — в ваши руки

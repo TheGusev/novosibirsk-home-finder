@@ -18,3 +18,10 @@
 - Lovable event calls stay at successful interaction handlers; metrika.ts only initializes Yandex and mirrors goals without personal data. An unset counter disables Yandex requests.
 - Rental catalog on /arenda renders only when `site_settings.rental_catalog_enabled` is true AND active rentals exist — no empty catalog shown.
 - `complexes.commission_note` is admin-filled only; never write "без комиссии" in code for resale or rentals.
+
+- Public page data is fetched with session-free public server functions and paginated reads; route loaders prime Query to expose content in SSR independently of browser sessions.
+- SEO collections share catalog filtering; settings control their active-object threshold, and more than two logical filters use noindex with the nearest collection canonical.
+- Sitemap static entries derive from required route staticData.sitemap decisions; dynamic entries use public, paginated active content and omit non-authoritative lastmod.
+- Canonical/OG URLs use the deployed public origin until a verified domain move; organization identity may retain the business URL separately.
+
+- Confirmed contact values live in the shared contact module; phone-based messenger links must not invent usernames or MAX profile URLs.

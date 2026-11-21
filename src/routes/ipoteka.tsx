@@ -4,7 +4,8 @@ import { PageHero, Section, Steps, head } from "@/components/site/ui";
 import { LeadForm } from "@/components/site/LeadForm";
 
 export const Route = createFileRoute("/ipoteka")({
-  head: () => head("Ипотека в Новосибирске", "Помощь с ипотекой: сравнение программ, подготовка документов, подача в банки."),
+  staticData: { sitemap: true },
+  head: () => head("Ипотека в Новосибирске", "Помощь с ипотекой: сравнение программ, подготовка документов, подача в банки.", "/ipoteka"),
   component: () => (
     <SiteLayout>
       <PageHero eyebrow="Ипотека" title="Ипотека без лишней бумажной работы" text="Сравним программы, поможем собрать документы и подать заявку в банки. Банки-партнёры: [заполнить]." />

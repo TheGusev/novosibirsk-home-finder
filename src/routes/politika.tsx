@@ -3,7 +3,8 @@ import { SiteLayout } from "@/components/site/Layout";
 import { PageHero, Section, head } from "@/components/site/ui";
 
 export const Route = createFileRoute("/politika")({
-  head: () => head("Политика конфиденциальности", "Политика обработки персональных данных и согласие на обработку персональных данных ООО «Ключбери»."),
+  staticData: { sitemap: true },
+  head: () => head("Политика конфиденциальности", "Политика обработки персональных данных и согласие на обработку персональных данных ООО «Ключбери».", "/politika"),
   component: () => (
     <SiteLayout>
       <PageHero eyebrow="Документы" title="Политика конфиденциальности" text="Порядок обработки персональных данных пользователей сайта kluchberi.ru." />

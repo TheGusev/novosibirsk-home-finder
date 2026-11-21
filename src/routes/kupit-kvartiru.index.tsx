@@ -1,10 +1,13 @@
+import { seoHead } from "@/lib/seo";
+import { nearestCollection, filterCount } from "@/lib/seo-collections";
+import { CollectionLinks } from "@/components/site/CollectionLinks";
 import { createFileRoute, ClientOnly } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { lazy, Suspense, useMemo, useState } from "react";
 import { LayoutGrid, List, Map as MapIcon, SlidersHorizontal, X, SearchX } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
 import { FilterPanel } from "@/components/site/FilterPanel";
-import { PropertyCard, PropertyCardSkeleton } from "@/components/site/PropertyCard";
+import { PropertyCard } from "@/components/site/PropertyCard";
 import { activeChips, applyFilters, catalogTitle, cleanFilters, parseFilters, removeChip, SORTS, type Filters } from "@/lib/catalog";
 import { propertiesQuery } from "@/lib/properties-query";
 import { metrikaGoal } from "@/lib/metrika";
@@ -14,22 +17,29 @@ const CatalogMap = lazy(() => import("@/components/site/CatalogMap"));
 type View = "grid" | "list" | "map";
 type Search = Filters & { view?: string | undefined };
 
-export const Route = createFileRoute("/kupit-kvartiru")({
+export const Route = createFileRoute("/kupit-kvartiru/")({
+  staticData: { sitemap: true },
   validateSearch: (s: Record<string, unknown>): Search => {
     const f: Search = parseFilters(s);
     if (s["view"] === "list" || s["view"] === "map") f.view = s["view"];
     return f;
   },
-  head: () => ({
-    meta: [
-      { title: "Купить квартиру в Новосибирске — каталог Ключбери" },
-      { name: "description", content: "Каталог квартир в Новосибирске и области: вторичка и новостройки, фильтры по цене, району, метро и площади, карта." },
-      { property: "og:title", content: "Каталог квартир — Ключбери" },
-      { property: "og:description", content: "Квартиры Новосибирска с понятной ценой и проверенной актуальностью." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  loaderDeps: ({ search }) => ({ filters: parseFilters(search) }),
+  loader: async ({ context, deps }) => {
+    const rows = await context.queryClient.ensureQueryData(propertiesQuery);
+    return { filters: deps.filters, count: applyFilters(rows, deps.filters).length };
+  },
+  head: ({ loaderData }) => {
+    const f = loaderData?.filters ?? {};
+    const parent = nearestCollection(f);
+    const title = catalogTitle(f);
+    return seoHead(`${title} — каталог квартир`, `Каталог: ${title.toLowerCase()}. Сравните цену, площадь, состояние дома и документы; просмотр вариантов без ввода телефона.`, '/kupit-kvartiru', {
+      noindex: !loaderData || filterCount(f) > 2,
+      canonical: parent ? `/kupit-kvartiru/${parent.slug}` : '/kupit-kvartiru',
+    });
+  },
+  errorComponent: () => <SiteLayout><div className="mx-auto max-w-6xl px-4 py-12"><h1 className="text-2xl font-bold text-primary">Не удалось загрузить квартиры</h1><p className="mt-3 text-muted-foreground">Обновите страницу, чтобы повторить загрузку.</p></div></SiteLayout>,
+  notFoundComponent: () => <SiteLayout><div className="mx-auto max-w-6xl px-4 py-12"><h1 className="text-2xl font-bold text-primary">Каталог не найден</h1></div></SiteLayout>,
   component: Catalog,
 });
 
@@ -43,7 +53,7 @@ function Catalog() {
   const navigate = Route.useNavigate();
   const { view: rawView, ...filters } = search;
   const view: View = rawView === "list" || rawView === "map" ? rawView : "grid";
-  const { data, isPending, isError, refetch } = useQuery(propertiesQuery);
+  const { data } = useSuspenseQuery(propertiesQuery);
 
   // Один источник: rows → items → заголовок, счётчик, чипы, список, карта.
   const items = useMemo(() => (data ? applyFilters(data, filters) : []), [data, search]);
@@ -70,16 +80,7 @@ function Catalog() {
     document.getElementById(`card-${id}`)?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   };
 
-  const results = isPending ? (
-    <div className={view === "list" ? "grid gap-4" : "grid gap-5 sm:grid-cols-2 xl:grid-cols-3"} aria-busy>
-      {Array.from({ length: 6 }, (_, i) => <PropertyCardSkeleton key={i} />)}
-    </div>
-  ) : isError ? (
-    <div className="rounded-2xl bg-card p-10 text-center shadow-soft">
-      <p className="font-semibold text-primary">Не удалось загрузить объекты</p>
-      <button onClick={() => refetch()} className="mt-4 rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground">Повторить</button>
-    </div>
-  ) : count === 0 ? (
+  const results = count === 0 ? (
     <div className="rounded-2xl bg-card p-10 text-center shadow-soft">
       <SearchX className="mx-auto h-10 w-10 text-muted-foreground" strokeWidth={1.5} />
       <p className="mt-4 text-lg font-bold text-primary">Ничего не найдено</p>
@@ -99,7 +100,7 @@ function Catalog() {
       <div className="mx-auto max-w-7xl px-4 pb-16 pt-8 md:px-6 md:pt-12">
         <h1 className="text-2xl font-extrabold text-primary md:text-4xl">{title}</h1>
         <p className="mt-2 text-sm text-muted-foreground" aria-live="polite">
-          {isPending ? "Загружаем варианты…" : isError ? "\u00a0" : `Найдено ${count} ${plural(count, "вариант", "варианта", "вариантов")}`}
+          {`Найдено ${count} ${plural(count, "вариант", "варианта", "вариантов")}`}
         </p>
 
         {/* Панель управления */}
@@ -155,6 +156,7 @@ function Catalog() {
             results
           )}
         </div>
+        <CollectionLinks />
       </div>
 
       {/* Мобильная шторка фильтров */}
@@ -171,7 +173,7 @@ function Catalog() {
             </div>
             <div className="flex-1 overflow-y-auto px-5 py-5"><FilterPanel value={draft} onChange={setDraft} /></div>
             <div className="border-t p-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
-              <button onClick={() => { apply({ ...draft, sort: filters.sort }); setSheet(false); }} disabled={isPending}
+              <button onClick={() => { apply({ ...draft, sort: filters.sort }); setSheet(false); }}
                 className="h-12 w-full rounded-xl bg-berry font-semibold text-berry-foreground disabled:opacity-60">
                 {draftCount === 0 ? "Нет вариантов — измените фильтры" : `Показать ${draftCount} ${plural(draftCount, "вариант", "варианта", "вариантов")}`}
               </button>

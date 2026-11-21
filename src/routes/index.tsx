@@ -1,27 +1,24 @@
+import { seoHead, faqSchema } from "@/lib/seo";
+import { CollectionLinks } from "@/components/site/CollectionLinks";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Home, Building2, KeyRound, Repeat, DoorOpen, FileSearch, ArrowRight, User, ChevronDown } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
 import { HomeHero } from "@/components/site/HomeHero";
 import { Section } from "@/components/site/ui";
 import { KeyIcon } from "@/components/site/KeyIcon";
-import { PropertyCard, PropertyCardSkeleton } from "@/components/site/PropertyCard";
-import { useQuery } from "@tanstack/react-query";
+import { PropertyCard } from "@/components/site/PropertyCard";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { propertiesQuery } from "@/lib/properties-query";
 import { applyFilters } from "@/lib/catalog";
 import { MortgageCalc } from "@/components/site/MortgageCalc";
 import { FinalForm } from "@/components/site/FinalForm";
 
 export const Route = createFileRoute("/")({
-  head: () => ({
-    meta: [
-      { title: "Купить квартиру в Новосибирске — Ключбери" },
-      { name: "description", content: "Новостройки и вторичное жильё в Новосибирске и области. Понятная цена, проверка документов и сопровождение сделки." },
-      { property: "og:title", content: "Купить квартиру в Новосибирске — Ключбери" },
-      { property: "og:description", content: "Ключ — в ваши руки. Сделка — по понятным правилам." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
+  staticData: { sitemap: true },
+  loader: ({ context }) => context.queryClient.ensureQueryData(propertiesQuery),
+  head: () => seoHead('Купить квартиру в Новосибирске', 'Новостройки и вторичное жильё в Новосибирске и области. Понятная цена, проверка документов и сопровождение сделки.', '/', { schemas: [faqSchema(FAQ)] }),
+  errorComponent: () => <SiteLayout><Section><h1 className="text-2xl font-bold text-primary">Не удалось загрузить страницу</h1><p className="mt-3 text-muted-foreground">Обновите страницу.</p></Section></SiteLayout>,
+  notFoundComponent: () => <SiteLayout><Section><h1 className="text-2xl font-bold text-primary">Страница не найдена</h1></Section></SiteLayout>,
   component: Index,
 });
 
@@ -55,7 +52,7 @@ const SERVICES = [
 
 const TEAM = ["Специалист по покупке", "Специалист по продаже", "Ипотечный брокер", "Юрист"];
 
-const FAQ = [
+const FAQ: [string, string][] = [
   ["Из чего складываются расходы при покупке?", "Помимо цены квартиры обычно есть расходы на проверку и оформление документов, госпошлину за регистрацию, услуги банка и страхование при ипотеке, способ расчётов (ячейка или аккредитив) и услуги агентства. Точный список зависит от сделки — мы составим его до задатка."],
   ["Как проверяется квартира?", "Запрашиваем выписку из ЕГРН, смотрим основания владения, обременения, зарегистрированных лиц, историю перехода прав и соответствие планировки документам. О найденных рисках рассказываем простыми словами."],
   ["Можно ли купить квартиру в ипотеку?", "Да, если банк одобрит кредит. Поможем сравнить программы, подготовить документы и подать заявки. Решение об одобрении принимает банк."],
@@ -169,6 +166,7 @@ function Index() {
         </div>
       </Section>
 
+      <Section className="pt-0 md:pt-0"><CollectionLinks /></Section>
       <Section className="grid gap-8 pt-0 md:grid-cols-[1fr_1.2fr] md:items-center md:pt-0">
         <div>
           <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary text-berry"><KeyIcon className="h-8 w-8" /></span>
@@ -182,7 +180,6 @@ function Index() {
 }
 
 function HomeListings() {
-  const { data, isPending } = useQuery(propertiesQuery);
-  if (isPending) return <>{Array.from({ length: 6 }, (_, i) => <PropertyCardSkeleton key={i} />)}</>;
+  const { data } = useSuspenseQuery(propertiesQuery);
   return <>{applyFilters(data ?? [], {}).slice(0, 6).map((p) => <PropertyCard key={p.id} p={p} />)}</>;
 }

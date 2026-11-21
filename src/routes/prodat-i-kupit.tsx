@@ -4,7 +4,8 @@ import { PageHero, Section, Steps, head } from "@/components/site/ui";
 import { LeadForm } from "@/components/site/LeadForm";
 
 export const Route = createFileRoute("/prodat-i-kupit")({
-  head: () => head("Продать и купить другую квартиру", "Альтернативная сделка в Новосибирске: продажа своей квартиры и покупка новой в одной цепочке."),
+  staticData: { sitemap: true },
+  head: () => head("Продать и купить другую квартиру", "Альтернативная сделка в Новосибирске: продажа своей квартиры и покупка новой в одной цепочке.", "/prodat-i-kupit"),
   component: () => (
     <SiteLayout>
       <PageHero eyebrow="Альтернативная сделка" title="Продать свою и купить другую квартиру" text="Согласуем продажу и покупку так, чтобы вы не остались без жилья между сделками." />

@@ -1,9 +1,9 @@
+import { seoHead } from "@/lib/seo";
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { KeyIcon } from "./KeyIcon";
 
-export const PHONE = "+7 (383) XXX-XX-XX";
-export const PHONE_HREF = "tel:+7383XXXXXXX";
+export { PHONE, PHONE_HREF } from "@/lib/contact";
 
 export function BerryButton({ children = "Подобрать квартиру", className = "" }: { children?: ReactNode; className?: string }) {
   return (
@@ -49,16 +49,6 @@ export function Steps({ items }: { items: { t: string; d: string }[] }) {
   );
 }
 
-export function head(title: string, description: string) {
-  const t = `${title} — Ключбери`;
-  return {
-    meta: [
-      { title: t },
-      { name: "description", content: description },
-      { property: "og:title", content: t },
-      { property: "og:description", content: description },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  };
+export function head(title: string, description: string, path: string) {
+  return seoHead(title, description, path);
 }

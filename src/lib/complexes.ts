@@ -1,5 +1,5 @@
 import { queryOptions } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { getComplexes, getComplex } from "./public-data.functions";
 import type { Tables } from "@/integrations/supabase/types";
 
 export type Complex = Tables<"complexes">;
@@ -36,27 +36,16 @@ export function applyComplexFilters(rows: Complex[], f: ComplexFilters): Complex
 export const completionLabel = (c: Pick<Complex, "completion_year" | "completion_quarter">) =>
   c.completion_year ? `${c.completion_quarter ? c.completion_quarter + " кв. " : ""}${c.completion_year}` : "[заполнить]";
 
-export const complexImage = (c: Complex) => (Array.isArray(c.images) && typeof c.images[0] === "string" ? (c.images[0] as string) : "/images/building.jpg");
+export const complexImage = (c: Complex) => (Array.isArray(c.images) && typeof c.images[0] === "string" ? (c.images[0] as string).replace(/^\/images\/(hero|interior|building)\.jpg$/, "/images/$1.webp") : "/images/building.webp");
 
 export const complexesQuery = queryOptions({
   queryKey: ["complexes"],
-  queryFn: async (): Promise<Complex[]> => {
-    const { data, error } = await supabase.from("complexes").select("*");
-    if (error) throw error;
-    return data ?? [];
-  },
+  queryFn: (): Promise<Complex[]> => getComplexes(),
   staleTime: 60_000,
 });
 
 export const complexQuery = (slug: string) =>
   queryOptions({
     queryKey: ["complex", slug],
-    queryFn: async (): Promise<{ complex: Complex; layouts: Layout[] } | null> => {
-      const { data, error } = await supabase.from("complexes").select("*").eq("slug", slug).maybeSingle();
-      if (error) throw error;
-      if (!data) return null;
-      const l = await supabase.from("complex_layouts").select("*").eq("complex_id", data.id).order("rooms");
-      if (l.error) throw l.error;
-      return { complex: data, layouts: l.data ?? [] };
-    },
+    queryFn: (): Promise<{ complex: Complex; layouts: Layout[] } | null> => getComplex({ data: slug }),
   });

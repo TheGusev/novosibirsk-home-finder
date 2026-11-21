@@ -1,7 +1,8 @@
+import { seoHead } from "@/lib/seo";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { SiteLayout } from "@/components/site/Layout";
-import { PageHero, Section, head } from "@/components/site/ui";
+import { PageHero, Section } from "@/components/site/ui";
 import { LeadForm } from "@/components/site/LeadForm";
 import { DISTRICTS } from "@/lib/catalog";
 import { rub } from "@/lib/catalog";
@@ -13,9 +14,15 @@ const lbl = "mb-1.5 block text-xs font-semibold text-muted-foreground";
 const YEARS = ["2025", "2026", "2027", "2028"];
 
 export const Route = createFileRoute("/novostroyki/")({
+  staticData: { sitemap: true },
   validateSearch: (s: Record<string, unknown>): ComplexFilters => parseComplexFilters(s),
-  loader: ({ context }) => context.queryClient.ensureQueryData(complexesQuery),
-  head: () => head("Новостройки Новосибирска — жилые комплексы", "Каталог жилых комплексов Новосибирска: фильтры по району, сроку сдачи, цене и отделке. Подбор новостройки с «Ключбери»."),
+  loaderDeps: ({ search }) => ({ filters: search }),
+  loader: ({ context, deps }) => context.queryClient.ensureQueryData(complexesQuery).then(rows => ({ rows, filters: deps.filters })),
+  head: ({ loaderData }) => {
+    const f = loaderData?.filters ?? {};
+    const labels = Object.values(f).filter(Boolean).join(', ');
+    return seoHead('Новостройки Новосибирска — жилые комплексы' + (labels ? `: ${labels}` : ''), 'Сравните жилые комплексы Новосибирска по району, сроку сдачи, цене и отделке.', '/novostroyki', { noindex: !loaderData || Object.values(f).filter(Boolean).length > 2 });
+  },
   errorComponent: () => <SiteLayout><Section><p className="text-primary">Не удалось загрузить жилые комплексы. Обновите страницу.</p></Section></SiteLayout>,
   notFoundComponent: () => <SiteLayout><Section><p className="text-primary">Ничего не найдено.</p></Section></SiteLayout>,
   component: Complexes,

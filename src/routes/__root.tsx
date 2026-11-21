@@ -1,3 +1,6 @@
+import { seoSettingsQuery, organizationSchema } from "@/lib/seo";
+import manropeCyrillic from "@fontsource-variable/manrope/files/manrope-cyrillic-wght-normal.woff2?url";
+import manropeLatin from "@fontsource-variable/manrope/files/manrope-latin-wght-normal.woff2?url";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
   Outlet,
@@ -76,19 +79,20 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
+  staticData: { sitemap: false },
+  loader: ({ context }) => context.queryClient.ensureQueryData(seoSettingsQuery),
+  head: ({ loaderData }) => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Ключбери — недвижимость Новосибирска и области" },
-      { name: "description", content: "Агентство недвижимости «Ключбери», Новосибирск и область." },
+      { property: "og:site_name", content: "Ключбери" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    scripts: loaderData ? [{ type: "application/ld+json", children: JSON.stringify(organizationSchema(loaderData)).replace(/</g, "\\u003c") }] : [],
     links: [
-      { rel: "preconnect", href: "https://fonts.googleapis.com" },
-      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" },
+      { rel: "preload", href: manropeCyrillic, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
+      { rel: "preload", href: manropeLatin, as: "font", type: "font/woff2", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
         href: appCss,

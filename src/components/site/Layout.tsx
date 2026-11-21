@@ -1,3 +1,4 @@
+import { WHATSAPP_HREF, TELEGRAM_HREF } from "@/lib/contact";
 import { Link } from "@tanstack/react-router";
 import { useState, type ReactNode } from "react";
 import { Menu, X, Phone, MessageCircle, Send } from "lucide-react";
@@ -111,8 +112,8 @@ function MobileBar() {
   return (
     <nav className="fixed inset-x-0 bottom-0 z-50 grid grid-cols-4 border-t bg-card/95 pb-[env(safe-area-inset-bottom)] shadow-lift backdrop-blur lg:hidden">
       <a href={PHONE_HREF} onClick={() => { window.__lovableEvents?.track?.("project.click_phone", {}); metrikaGoal("click_phone"); }} className={item}><Phone className="h-5 w-5" />Позвонить</a>
-      <a href="https://wa.me/7383XXXXXXX" className={item}><MessageCircle className="h-5 w-5" />WhatsApp</a>
-      <a href="https://t.me/kluchberi" className={item}><Send className="h-5 w-5" />Telegram</a>
+      <a href={WHATSAPP_HREF} className={item}><MessageCircle className="h-5 w-5" />WhatsApp</a>
+      <a href={TELEGRAM_HREF} className={item}><Send className="h-5 w-5" />Telegram</a>
       <Link to="/kontakty" className="key-turn m-1.5 flex flex-col items-center justify-center gap-1 rounded-xl bg-berry text-[11px] font-semibold text-berry-foreground">
         <KeyIcon className="h-5 w-5" />Подбор
       </Link>

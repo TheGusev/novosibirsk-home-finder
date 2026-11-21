@@ -110,7 +110,7 @@ const ROOM_WORD: Record<string, string> = { "0": "студию", "1": "1-ком�
 
 export function catalogTitle(f: Filters): string {
   const r = roomsList(f);
-  let what = r.length === 1 ? ROOM_WORD[r[0]!] ?? "квартиру" : "квартиру";
+  let what = r.length === 1 ? ROOM_WORD[r[0] ?? ""] ?? "квартиру" : "квартиру";
   if (f.type === "new") what += " в новостройке";
   const where = f.district ? `, ${f.district} район` : "";
   return `Купить ${what} в Новосибирске${where}`;
@@ -119,4 +119,4 @@ export function catalogTitle(f: Filters): string {
 export const rub = (v: number) => v.toLocaleString("ru-RU") + " ₽";
 export const roomsLabel = (r: number) => (r === 0 ? "Студия" : `${r}-комн.`);
 export const SOURCE_LABEL: Record<string, string> = { owner: "Собственник", agency: "Агентство", developer: "Застройщик" };
-export const firstImage = (p: Property) => (Array.isArray(p.images) && typeof p.images[0] === "string" ? (p.images[0] as string) : "/images/hero.jpg");
+export const firstImage = (p: Property) => (Array.isArray(p.images) && typeof p.images[0] === "string" ? (p.images[0] as string).replace(/^\/images\/(hero|interior|building)\.jpg$/, "/images/$1.webp") : "/images/hero.webp");

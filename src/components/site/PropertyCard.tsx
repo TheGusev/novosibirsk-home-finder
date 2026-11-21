@@ -18,7 +18,7 @@ export function PropertyCard({ p, layout = "grid", active, onHover }: Props) {
       onMouseLeave={() => onHover?.(null)}
       className={`group relative overflow-hidden rounded-2xl bg-card shadow-soft transition hover:shadow-lift ${active ? "ring-2 ring-berry" : ""} ${list ? "sm:grid sm:grid-cols-[280px_1fr]" : ""}`}
     >
-      <Link to="/kvartira/$id" params={{ id: p.slug }} className="relative block aspect-[4/3] overflow-hidden sm:aspect-auto sm:min-h-full">
+      <Link to="/kvartira/$id" params={{ id: p.slug }} className={`relative block overflow-hidden ${list ? "aspect-[4/3] sm:aspect-auto sm:min-h-full" : "aspect-[4/3]"}`}>
         <img src={firstImage(p)} alt={p.title} loading="lazy" width={1200} height={900} className={`h-full w-full object-cover transition duration-500 group-hover:scale-105 ${list ? "" : "aspect-[4/3]"}`} />
         <span className="absolute left-3 top-3 rounded-full bg-berry px-3 py-1 text-xs font-semibold text-berry-foreground">{SOURCE_LABEL[p.source_type] ?? "Агентство"}</span>
         {p.title.startsWith("Демо") && <span className="absolute bottom-3 right-3 rounded-full bg-card/90 px-3 py-1 text-xs font-semibold text-primary">Демо</span>}

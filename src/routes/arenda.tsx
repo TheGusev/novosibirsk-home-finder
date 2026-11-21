@@ -3,24 +3,20 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { SiteLayout } from "@/components/site/Layout";
 import { PageHero, Section, head } from "@/components/site/ui";
 import { LeadForm } from "@/components/site/LeadForm";
-import { supabase } from "@/integrations/supabase/client";
+import { getRentals } from "@/lib/public-data.functions";
 import { rub, roomsLabel } from "@/lib/catalog";
 
 /** Каталог аренды показывается только при включённом флаге И наличии актуальных предложений. */
 const rentalsQuery = queryOptions({
   queryKey: ["rentals-section"],
-  queryFn: async () => {
-    const s = await supabase.from("site_settings").select("value").eq("key", "rental_catalog_enabled").maybeSingle();
-    if (s.data?.value !== true) return [];
-    const { data } = await supabase.from("rentals").select("*").eq("status", "active").order("verified_at", { ascending: false });
-    return data ?? [];
-  },
+  queryFn: () => getRentals(),
   staleTime: 60_000,
 });
 
 export const Route = createFileRoute("/arenda")({
+  staticData: { sitemap: true },
   loader: ({ context }) => context.queryClient.ensureQueryData(rentalsQuery),
-  head: () => head("Аренда квартир в Новосибирске", "Снять квартиру или сдать свою в Новосибирске: подбор, проверка сторон и понятный договор аренды."),
+  head: () => head("Аренда квартир в Новосибирске", "Снять квартиру или сдать свою в Новосибирске: подбор, проверка сторон и понятный договор аренды.", "/arenda"),
   errorComponent: () => <SiteLayout><Section><p className="text-primary">Не удалось загрузить страницу. Обновите её.</p></Section></SiteLayout>,
   notFoundComponent: () => <SiteLayout><Section><p className="text-primary">Страница не найдена.</p></Section></SiteLayout>,
   component: Rent,
@@ -55,7 +51,7 @@ function Rent() {
           <ul className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {rentals.map((r) => (
               <li key={r.id} className="overflow-hidden rounded-2xl bg-card shadow-soft">
-                {Array.isArray(r.images) && typeof r.images[0] === "string" && <img src={r.images[0] as string} alt={r.title} loading="lazy" className="aspect-[4/3] w-full object-cover" />}
+                {Array.isArray(r.images) && typeof r.images[0] === "string" && <img src={r.images[0] as string} alt={r.title} loading="lazy" width={1200} height={900} className="aspect-[4/3] w-full object-cover" />}
                 <div className="p-5">
                   <p className="text-xl font-extrabold text-primary">{rub(r.price_month)}/мес.</p>
                   <p className="mt-1 font-semibold text-primary">{roomsLabel(r.rooms)}{r.area_total ? ` · ${Number(r.area_total)} м²` : ""}</p>
