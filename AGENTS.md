@@ -29,3 +29,4 @@
 - Brand name, domain and requisites live only in `src/config/site.ts`; Organization JSON-LD and title suffix render only once a real name and domain are set, so placeholders never reach SEO.
 - Accent colour is the single `--brand` token in `src/styles.css`; components use `brand`/semantic classes only, so a rebrand is a token change.
 - Preview self-heal: an inline script from `src/lib/render-recovery.ts` is injected in the root head and reloads once when a stale-module or hydration failure leaves the screen blank; keep the blank-screen check and the reload cap so a real bug cannot loop.
+- Mount the cookie notice once in the root; read its versioned dismissal key only after hydration to avoid SSR mismatch. It is an informational notice, not an analytics consent gate.

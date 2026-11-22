@@ -19,6 +19,7 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { captureAttribution } from "@/lib/lead-attribution";
 import { initializeMetrika } from "@/lib/metrika";
 import { RENDER_RECOVERY } from "@/lib/render-recovery";
+import { CookieNotice } from "@/components/site/CookieNotice";
 
 function NotFoundComponent() {
   return (
@@ -135,6 +136,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <CookieNotice />
     </QueryClientProvider>
   );
 }
