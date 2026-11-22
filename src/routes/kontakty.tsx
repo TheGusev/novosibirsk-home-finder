@@ -15,7 +15,7 @@ export const Route = createFileRoute("/kontakty")({
       <Section className="grid gap-8 md:grid-cols-2">
         <Card className="grid gap-5">
           <p className="flex gap-3"><Phone className="text-brand" /><a href={PHONE_HREF} onClick={() => { window.__lovableEvents?.track?.("project.click_phone", {}); metrikaGoal("click_phone"); }} className="font-semibold text-primary">{PHONE}</a></p>
-          <p className="text-sm text-primary">Агент {CONTACT_NAME} · WhatsApp, Telegram и MAX на этом номере</p>
+          <p className="text-sm text-primary">Агент {CONTACT_NAME}</p>
           <div className="flex flex-wrap gap-4 text-sm font-semibold text-brand"><a href={WHATSAPP_HREF}>WhatsApp</a><a href={TELEGRAM_HREF}>Telegram</a></div>
           <p className="flex gap-3"><Mail className="text-brand" /><span className="text-primary">[заполнить email]</span></p>
           <p className="flex gap-3"><MapPin className="text-brand" /><span className="text-primary">Новосибирск, [заполнить адрес]</span></p>
