@@ -13,7 +13,7 @@ export const RECOVERY_HEALTHY_MS = 10000;
 export const RECOVERY_STORAGE_KEY = "va54:render-recovery";
 
 const STALE_PATTERN =
-  "Hydration failed|is not an object|Cannot read properties of undefined|Minified React error #4[12][0-9]";
+  "No factory registered for module|Hydration failed|is not an object|Cannot read properties of undefined|Minified React error #4[12][0-9]";
 
 /** Инлайновый скрипт для <head>: ставится до загрузки бандла, чтобы поймать сбой при гидрации. */
 export const RENDER_RECOVERY = `(function(){
@@ -24,8 +24,7 @@ function write(v){try{sessionStorage.setItem(K,JSON.stringify(v))}catch(e){}}
 function clear(){try{sessionStorage.removeItem(K)}catch(e){}}
 function blank(){return document.body.innerText.trim().length<40}
 function stale(m){return new RegExp(${JSON.stringify(STALE_PATTERN)}).test(m||"")}
-window.addEventListener("error",function(e){
-var m=(e&&(e.message||(e.error&&e.error.message)))||"";
+function recover(m){
 if(!stale(m))return;
 setTimeout(function(){
 if(!blank())return;
@@ -34,6 +33,8 @@ if(s.n>=MAX||Date.now()-s.t<MIN)return;
 write({n:s.n+1,t:Date.now()});
 location.reload();
 },300);
-});
+}
+window.addEventListener("error",function(e){recover((e&&(e.message||(e.error&&e.error.message)))||"")});
+window.addEventListener("unhandledrejection",function(e){var r=e&&e.reason;recover(typeof r==="string"?r:(r&&r.message)||"")});
 setTimeout(clear,HEALTHY);
 })();`;
