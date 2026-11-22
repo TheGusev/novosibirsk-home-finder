@@ -1,4 +1,4 @@
-import { CONTACT_NAME, WHATSAPP_HREF, TELEGRAM_HREF } from "@/lib/contact";
+import { CONTACT_NAME, WHATSAPP_HREF, TELEGRAM_HREF, AVITO_HREF } from "@/lib/contact";
 import { createFileRoute } from "@tanstack/react-router";
 import { MapPin, Phone, Clock, Mail } from "lucide-react";
 import { SiteLayout } from "@/components/site/Layout";
@@ -16,7 +16,7 @@ export const Route = createFileRoute("/kontakty")({
         <Card className="grid gap-5">
           <p className="flex gap-3"><Phone className="text-brand" /><a href={PHONE_HREF} onClick={() => { window.__lovableEvents?.track?.("project.click_phone", {}); metrikaGoal("click_phone"); }} className="font-semibold text-primary">{PHONE}</a></p>
           <p className="text-sm text-primary">Агент {CONTACT_NAME}</p>
-          <div className="flex flex-wrap gap-4 text-sm font-semibold text-brand"><a href={WHATSAPP_HREF}>WhatsApp</a><a href={TELEGRAM_HREF}>Telegram</a></div>
+          <div className="flex flex-wrap gap-4 text-sm font-semibold text-brand"><a href={WHATSAPP_HREF}>WhatsApp</a><a href={TELEGRAM_HREF}>Telegram</a><a href={AVITO_HREF} target="_blank" rel="noopener noreferrer" className="flex min-h-11 items-center rounded-md border px-4">Авито</a></div>
           <p className="flex gap-3"><Mail className="text-brand" /><span className="text-primary">[заполнить email]</span></p>
           <p className="flex gap-3"><MapPin className="text-brand" /><span className="text-primary">Новосибирск, [заполнить адрес]</span></p>
           <p className="flex gap-3"><Clock className="text-brand" /><span className="text-primary">Пн–Пт: [заполнить], Сб–Вс: [заполнить]</span></p>

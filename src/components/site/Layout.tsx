@@ -1,4 +1,4 @@
-import { WHATSAPP_HREF, TELEGRAM_HREF, CONTACT_NAME } from "@/lib/contact";
+import { WHATSAPP_HREF, TELEGRAM_HREF, AVITO_HREF, CONTACT_NAME } from "@/lib/contact";
 import { SITE } from "@/config/site";
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState, type ReactNode } from "react";
@@ -66,6 +66,7 @@ function Header() {
           <div className="mt-3 grid grid-cols-2 gap-2">
             <a href={WHATSAPP_HREF} className="flex h-11 items-center justify-center rounded-md border text-sm font-medium text-primary">WhatsApp</a>
             <a href={TELEGRAM_HREF} className="flex h-11 items-center justify-center rounded-md border text-sm font-medium text-primary">Telegram</a>
+            <a href={AVITO_HREF} target="_blank" rel="noopener noreferrer" className="flex h-11 items-center justify-center rounded-md border text-sm font-medium text-primary">Авито</a>
           </div>
         </div>
       )}
@@ -87,7 +88,7 @@ function Footer() {
         <div className="text-muted-foreground">
           <a href={PHONE_HREF} onClick={trackPhone} className="font-semibold text-primary tabular">{PHONE}</a>
           <p className="mt-1">Агент {CONTACT_NAME}</p>
-          <p className="mt-1"><a href={WHATSAPP_HREF} className="hover:text-primary">WhatsApp</a> · <a href={TELEGRAM_HREF} className="hover:text-primary">Telegram</a></p>
+          <p className="mt-1"><a href={WHATSAPP_HREF} className="hover:text-primary">WhatsApp</a> · <a href={TELEGRAM_HREF} className="hover:text-primary">Telegram</a> · <a href={AVITO_HREF} target="_blank" rel="noopener noreferrer" className="hover:text-primary">Авито</a></p>
           <p className="mt-3">Новосибирск, [заполнить адрес]</p>
           <p className="mt-1">Часы работы: [заполнить]</p>
         </div>
